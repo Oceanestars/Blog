@@ -1,0 +1,641 @@
+<html><link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Git/Linux Tutorial</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+</style></head><body><article id="a902f046-2919-492d-859d-00eed80caf42" class="page serif"><header><img class="page-cover-image" src="https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?ixlib=rb-1.2.1&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb&amp;ixid=eyJhcHBfaWQiOjYzOTIxfQ" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">💻</span></div><h1 class="page-title">Git/Linux Tutorial</h1></header><div class="page-body"><p id="6a31ae90-31e9-44b3-889d-6d77f5c707c4" class="">Written by Oceane Andreis</p><h3 id="f9056805-65aa-460b-9ee9-116036852995" class=""><strong>1st Step - Create a Folder/File and Fork &amp; Clone our repository</strong></h3><p id="14a7ab67-604b-4573-9672-307efffb44b4" class="">Create a folder and a file</p><pre id="8c76e74a-09d4-4557-99a8-33f19ace0a6f" class="code"><code>pwd                                // Let’s see where we are
+ls                                    // List all the folders/files of our location
+nmkdir  GitTutorial           // Create a folder(pick a place you feel comfortable with)
+cd GitTutorial                 // Go into that folder
+touch  README.md      // Create a read me file
+vim README.md     // Edit read me file. Press i to insert, esc+:+wq  (wq = write quit)(Will also create the file if it didn&#x27;t exist)
+cat README.md      //Preview the file
+rm README.md      // Remove our masterpiece</code></pre><p id="251c4080-7283-4eed-832b-9c67cf5ad227" class="">Fork the repository on github (<em>MUST DO THIS STEP BEFORE CLONING</em>)</p><p id="2b3d9cb5-8755-4b01-88cc-ecca8f4d2f3a" class=""><strong>Clone the repository in the folder you created</strong></p><pre id="8cf3923c-3844-41a9-924b-decdf42913b0" class="code"><code>git clone https://github.com/YourUsername/TestPullRequest.git. //forked version</code></pre><h3 id="87d34fea-d1be-4956-8f70-179547814d26" class=""><strong>2nd Step - Push code</strong></h3><p id="4b9b715a-994f-47e6-a972-f006a260b7f0" class="">Pick a file and fix the error</p><p id="ae766f2f-8f91-4781-887a-5e16cbc93031" class="">Use a code editor to edit or you can use vim(use vim if you don’t have a code editor).</p><p id="c823137e-21ac-430e-82b1-f10385006d21" class="">Instructions for vim(text editor in terminal)</p><pre id="ef4b966b-8043-4227-b5a1-315d87a5b6d9" class="code"><code>vim nameoffile</code></pre><p id="da02fdd6-18d6-40d1-8540-ff9063a96444" class="">It will opent vim in the terminal and you’ll see the file. You need to press ‘i’ on your keyboard to be able to edit it. To save your work you have to press esc then ‘:’ and then type wq (which mean write quit). If you didn’t want to write to the file and you just wanted to read you can just do :q</p><p id="b81243da-d6d7-4b90-8b21-b7ab0d72fedd" class="">Git commands (after you fixed the files and saved them)</p><pre id="2e154878-625e-467d-acce-34b3a21e5b92" class="code"><code>git add .
+git commit -m “First Commit by yourname”
+git push // this won’t work right away if you didn’t do the config</code></pre><p id="e740f086-af0a-42d4-a0e3-972b33dc9be0" class="">Config command(in your terminal it should tell you exactly what to do, follow those)</p><pre id="7e113d24-fdcb-49ef-b5b4-947fbda0820c" class="code"><code>git config --global --edit
+git commit --amend --reset-author</code></pre><p id="c1d17170-0a4c-49a6-9195-3c3026bc31e6" class="">Now you can git push! Go check on your github your changes!</p><h3 id="0e13fc11-5c1c-46db-92d9-3a984469bddc" class=""><strong>3rd Step - Create your branch and fix more errors from a different files</strong></h3><p id="1a13aac8-8f58-416c-bc74-ed29cbb8b099" class="">Create a branch</p><p id="7a64d21a-94bf-4baa-bcf8-a3373441da71" class="">Tip: A big benefit to create branch is to unit test your code in the branch before you merge it with master</p><pre id="8cf053aa-0a5a-4913-b056-726701ee7b1e" class="code"><code>git checkout -b MyFirstBranch_YourName</code></pre><p id="7e927cd8-2d26-4eee-a8dd-18240ab25326" class=""><strong>Fix the errors in Webpage.html</strong></p><p id="984785f8-0d58-404f-b81d-090eec15b756" class="">Hint: it says 5 errors, but technically you can only fix 4 in the code . The fifth one you have to add something to your folder . (it’s totally okay if you don’t find all of them)</p><p id="dac25ddd-c32b-406a-9054-633a0d7ad24c" class=""><strong>Push your changes to your branch</strong></p><pre id="87cedc00-276a-4eeb-9e03-289865993f5d" class="code"><code>git status
+git add .
+git commit -m “ Fixed blabla”
+git push --set-upstream origin nameofyourbranch     //you only need to do this one time then the second time you push you just need git push
+git log</code></pre><h3 id="79ce1f00-eaee-4501-b791-a733ee686e76" class=""><strong>4th Step - Pull request</strong></h3><p id="8e6983d3-3014-4f68-8341-4d67d920f75b" class=""><strong>Go back to Github</strong></p><p id="94a410d5-2e67-487e-b0f5-1d9c431afb9e" class="">It’ll say pull request click on that</p><h3 id="100568dc-e2c3-4a08-9230-c3220968ce9d" class="">5th step - Issue (Optional)  </h3><p id="33275346-fe3a-4ae0-b883-1b0ee622cb49" class="">Issue I wrote an issue you can directly go and discuss it with me if you want.</p><h3 id="ffdc8b54-2890-4fc1-a27b-395408dd3261" class="">Was this too easy?</h3><p id="9ef34de6-7a48-4154-b2c5-d7374db0d4b6" class="">Next steps: </p><ul id="8333fe10-8920-42ee-b574-a91114a3ef8a" class="bulleted-list"><li>Read about git rebase</li></ul><ul id="5b162b29-4ee1-4fc2-8094-f1282d4437b1" class="bulleted-list"><li> Read about git squash </li></ul><ul id="0cda3a16-f12b-47e1-b30c-e5724a438729" class="bulleted-list"><li>Read about fixup </li></ul><ul id="011bef2d-4cd9-4c84-b747-11f8dea4eb69" class="bulleted-list"><li> Read about git cherry picking</li></ul><h3 id="28c6e7f4-5e59-4a87-907a-dac2309cd2cb" class="">GIT Commands</h3><ul id="4c226a19-b7bf-4d19-8a92-d88e432fc7ae" class="bulleted-list"><li>git add . → add all changed files in the staged area</li></ul><ul id="74a4eefd-710d-43bf-8b25-9a9af4898815" class="bulleted-list"><li>git commit - m “ Put something that reflects what you changed/created” →</li></ul><ul id="ead66ac2-66d1-4032-a013-e2620c08cae8" class="bulleted-list"><li>git push → push your changes to the remote repository</li></ul><ul id="f31ccc92-df33-413e-9b0c-34b074ce7f6c" class="bulleted-list"><li>git pull → Download the latest changes and integrate them into your project</li></ul><ul id="846d57b8-66a1-4d7b-a343-7dc690d6ebfe" class="bulleted-list"><li>git status → Check which files have been stages or committed</li></ul><ul id="94182f46-41c8-410c-ba62-dd1f562b7fe0" class="bulleted-list"><li>git branch → Check which branch you’re on</li></ul><ul id="3ffd6b00-5d65-4cc3-8d40-ea8f73a86f8b" class="bulleted-list"><li>git checkout nameofbranch → Move to nameofbranch</li></ul><ul id="bc685a9c-47da-43f9-96b2-692a76966783" class="bulleted-list"><li>git checkout -b nameofnewbranch → Create a new branch and check it out</li></ul><ul id="73a85849-0731-4cb2-98d8-2cd358229701" class="bulleted-list"><li>git clone link → Clone a repo</li></ul><ul id="847aad85-411f-4c22-b685-d31e850f0a47" class="bulleted-list"><li>git init → make a directory a git repository</li></ul><ul id="bd1bfae4-0823-41e9-a7ee-26a9289b7e5f" class="bulleted-list"><li>git log → print a log of your commits</li></ul><h3 id="8467049a-4be7-4259-97e2-f5e9916d3608" class="">Linux Commands</h3><ul id="974609e9-3925-4b9b-8e14-1be5ef215235" class="bulleted-list"><li>cd → Current directory</li></ul><ul id="a4cc238f-0e2b-4c5b-8646-e9d2d9055b53" class="bulleted-list"><li>pwd → Print working directory</li></ul><ul id="98e04ae0-2c6c-452c-9c7f-d554e196db0d" class="bulleted-list"><li>touch → Create a file</li></ul><ul id="7a7234f2-cd83-4ece-a772-608ac82e5060" class="bulleted-list"><li>mkdir → Create a directory</li></ul><ul id="fa8c082d-b12b-45a5-8677-b034ffaf63d9" class="bulleted-list"><li>vi name of file → Open and edit a file</li></ul><ul id="15bf972c-a1fb-4c22-a82d-63c9b271bb71" class="bulleted-list"><li>cat → Display content of a file</li></ul><ul id="43afba22-102f-4fc5-bd5f-e5b8296c2e6e" class="bulleted-list"><li>ls → List everything in your current directory</li></ul><ul id="2287db37-b209-4a8d-a823-7c21f1992f61" class="bulleted-list"><li>echo $nameofwhatever→ Will print the path to whatever you want</li></ul><ul id="c07b3754-aa7b-4f8c-ae97-4a7e8d5a3122" class="bulleted-list"><li>history → Will print the history of all of your shell commands</li></ul><ul id="82c301b3-7910-4b12-90c5-a46b66284487" class="bulleted-list"><li>man nameofterminalcommand → Will explain that command</li></ul><ul id="776ceb1e-ba77-410f-8cd4-d581cc923dfd" class="bulleted-list"><li>mv nameoffile location → Move file/directory somewhere else</li></ul><ul id="cc290bf9-884f-4bc6-b136-3523744eb3e9" class="bulleted-list"><li>tar -xvf yourfile.tar → Extract tar file</li></ul><ul id="483104c8-3b86-42a5-bf4e-1d7e93d48e0c" class="bulleted-list"><li>whoami → Find out who you are logged in as</li></ul><ul id="33adbd9f-740a-4f0d-879b-a2fd16cf5f4c" class="bulleted-list"><li>rm nameofile → Remove name of file</li></ul><ul id="be4b310e-5cc2-48e1-b00d-5e07ea6f8cce" class="bulleted-list"><li>ls -a → See hidden file(bashrc for example)</li></ul><ul id="36177d82-15c8-49c6-937c-6b47bc29ab82" class="bulleted-list"><li>tree → See the hierarchy of your files</li></ul><ul id="2828f0b8-7c29-4539-a1a2-83c3d38e6ea6" class="bulleted-list"><li>find . -name “pattern” -print → Find specific files</li></ul><h3 id="faa44596-0ee7-45a3-b78a-9c44d644b124" class="">Resources</h3><p id="2b2df86c-d6c2-491d-a215-8130715d06f3" class=""><a href="https://www.atlassian.com/git/tutorials/install-git">Download Git</a> </p><p id="7c646f6e-d90d-4121-a658-8bb16a929be3" class=""> <a href="https://markdown-editor.github.io/">Markdown Online Editor</a>  </p><p id="9e44a0b2-8b18-49fa-8334-0c32d739a11e" class=""><a href="https://guides.github.com/features/mastering-markdown/">Markdown Tutorial</a> </p><p id="aa553e1a-1007-4427-8a17-cc5ef5964be1" class=""> <a href="https://www.markdowntutorial.com/">Markdown Interactive Tutorial</a> </p><p id="bd514a5b-4df0-4ec6-9793-4b3c3bd800c5" class=""> <a href="https://repl.it/">In Browser IDE</a> </p><p id="d8b7f102-dfb1-41d6-b988-469b90bd12c8" class=""> <a href="https://sourabhbajaj.com/mac-setup/iTerm/zsh.html">Oh my zsh</a>  </p><p id="5bc68e6c-d279-49c1-bf83-785ad361d337" class=""><a href="https://brew.sh/">Homebrew</a> </p><p id="797d5fd6-0328-4692-a217-3b53c3b6e55e" class=""> <a href="https://cmder.net/">Cmder</a> </p><p id="3c62ee45-abee-4d7a-92bb-93bf9c32e05e" class=""> <a href="https://stackoverflow.com/questions/7244321/how-do-i-update-a-github-forked-repository">Update forked repo</a> </p><p id="24fac7a5-f6f9-475e-a3ef-3cc934fc3fe6" class=""><a href="https://stackoverflow.com/questions/37770467/why-do-i-have-to-git-push-set-upstream-origin-branch">Great upstream explanation</a> </p><p id="ead49762-3540-4ad2-9042-3466b75a6c19" class=""> <a href="https://docs.google.com/presentation/d/1JZMtdtUaLqp9CrydJLEmLoGRrt0PcETV1CNeOSc5uIQ/edit?usp=sharing">Powerpoint Link</a>  </p><p id="8ea378f9-8cfe-423b-8c84-ea68dfc624d8" class=""><a href="https://goodfirstissues.com/">Good first issues</a> </p><p id="3110d42f-d253-4b88-950c-60e7882fe59d" class=""> <a href="https://education.github.com/pack">Github Education pack</a> </p><p id="886429fc-355f-4e9b-b7b1-82dcef450c3b" class=""> <a href="https://github.com/MunGell/awesome-for-beginners">Open Source for beginners</a> </p><p id="2f2e371f-6775-4599-91be-76b31fcb7e12" class="">Do you have any good resource that could complement this? Do a pull request!</p></div></article></body></html>
