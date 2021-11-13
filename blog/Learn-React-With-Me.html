@@ -1,758 +1,668 @@
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Learn React with Me</title>
-    <style>
-      /* webkit printing magic: print all background colors */
-      html {
-        -webkit-print-color-adjust: exact;
-      }
-      * {
-        box-sizing: border-box;
-        -webkit-print-color-adjust: exact;
-      }
-
-      html,
-      body {
-        margin: 0;
-        padding: 0;
-      }
-      @media only screen {
-        body {
-          margin: 2em auto;
-          max-width: 900px;
-          color: rgb(55, 53, 47);
-        }
-      }
-
-      body {
-        line-height: 1.5;
-        white-space: pre-wrap;
-      }
-
-      a,
-      a.visited {
-        color: inherit;
-        text-decoration: underline;
-      }
-
-      .pdf-relative-link-path {
-        font-size: 80%;
-        color: #444;
-      }
-
-      h1,
-      h2,
-      h3 {
-        letter-spacing: -0.01em;
-        line-height: 1.2;
-        font-weight: 600;
-        margin-bottom: 0;
-      }
-
-      .page-title {
-        font-size: 2.5rem;
-        font-weight: 700;
-        margin-top: 0;
-        margin-bottom: 0.75em;
-      }
-
-      h1 {
-        font-size: 1.875rem;
-        margin-top: 1.875rem;
-      }
-
-      h2 {
-        font-size: 1.5rem;
-        margin-top: 1.5rem;
-      }
-
-      h3 {
-        font-size: 1.25rem;
-        margin-top: 1.25rem;
-      }
-
-      .source {
-        border: 1px solid #ddd;
-        border-radius: 3px;
-        padding: 1.5em;
-        word-break: break-all;
-      }
-
-      .callout {
-        border-radius: 3px;
-        padding: 1rem;
-      }
-
-      figure {
-        margin: 1.25em 0;
-        page-break-inside: avoid;
-      }
-
-      figcaption {
-        opacity: 0.5;
-        font-size: 85%;
-        margin-top: 0.5em;
-      }
-
-      mark {
-        background-color: transparent;
-      }
-
-      .indented {
-        padding-left: 1.5em;
-      }
-
-      hr {
-        background: transparent;
-        display: block;
-        width: 100%;
-        height: 1px;
-        visibility: visible;
-        border: none;
-        border-bottom: 1px solid rgba(55, 53, 47, 0.09);
-      }
-
-      img {
-        max-width: 100%;
-      }
-
-      @media only print {
-        img {
-          max-height: 100vh;
-          object-fit: contain;
-        }
-      }
-
-      @page {
-        margin: 1in;
-      }
-
-      .collection-content {
-        font-size: 0.875rem;
-      }
-
-      .column-list {
-        display: flex;
-        justify-content: space-between;
-      }
-
-      .column {
-        padding: 0 1em;
-      }
-
-      .column:first-child {
-        padding-left: 0;
-      }
-
-      .column:last-child {
-        padding-right: 0;
-      }
-
-      .table_of_contents-item {
-        display: block;
-        font-size: 0.875rem;
-        line-height: 1.3;
-        padding: 0.125rem;
-      }
-
-      .table_of_contents-indent-1 {
-        margin-left: 1.5rem;
-      }
-
-      .table_of_contents-indent-2 {
-        margin-left: 3rem;
-      }
-
-      .table_of_contents-indent-3 {
-        margin-left: 4.5rem;
-      }
-
-      .table_of_contents-link {
-        text-decoration: none;
-        opacity: 0.7;
-        border-bottom: 1px solid rgba(55, 53, 47, 0.18);
-      }
-
-      table,
-      th,
-      td {
-        border: 1px solid rgba(55, 53, 47, 0.09);
-        border-collapse: collapse;
-      }
-
-      table {
-        border-left: none;
-        border-right: none;
-      }
-
-      th,
-      td {
-        font-weight: normal;
-        padding: 0.25em 0.5em;
-        line-height: 1.5;
-        min-height: 1.5em;
-        text-align: left;
-      }
-
-      th {
-        color: rgba(55, 53, 47, 0.6);
-      }
-
-      ol,
-      ul {
-        margin: 0;
-        margin-block-start: 0.6em;
-        margin-block-end: 0.6em;
-      }
-
-      li > ol:first-child,
-      li > ul:first-child {
-        margin-block-start: 0.6em;
-      }
-
-      ul > li {
-        list-style: disc;
-      }
-
-      ul.to-do-list {
-        text-indent: -1.7em;
-      }
-
-      ul.to-do-list > li {
-        list-style: none;
-      }
-
-      .to-do-children-checked {
-        text-decoration: line-through;
-        opacity: 0.375;
-      }
-
-      ul.toggle > li {
-        list-style: none;
-      }
-
-      ul {
-        padding-inline-start: 1.7em;
-      }
-
-      ul > li {
-        padding-left: 0.1em;
-      }
-
-      ol {
-        padding-inline-start: 1.6em;
-      }
-
-      ol > li {
-        padding-left: 0.2em;
-      }
-
-      .mono ol {
-        padding-inline-start: 2em;
-      }
-
-      .mono ol > li {
-        text-indent: -0.4em;
-      }
-
-      .toggle {
-        padding-inline-start: 0em;
-        list-style-type: none;
-      }
-
-      /* Indent toggle children */
-      .toggle > li > details {
-        padding-left: 1.7em;
-      }
-
-      .toggle > li > details > summary {
-        margin-left: -1.1em;
-      }
-
-      .selected-value {
-        display: inline-block;
-        padding: 0 0.5em;
-        background: rgba(206, 205, 202, 0.5);
-        border-radius: 3px;
-        margin-right: 0.5em;
-        margin-top: 0.3em;
-        margin-bottom: 0.3em;
-        white-space: nowrap;
-      }
-
-      .collection-title {
-        display: inline-block;
-        margin-right: 1em;
-      }
-
-      time {
-        opacity: 0.5;
-      }
-
-      .icon {
-        display: inline-block;
-        max-width: 1.2em;
-        max-height: 1.2em;
-        text-decoration: none;
-        vertical-align: text-bottom;
-        margin-right: 0.5em;
-      }
-
-      img.icon {
-        border-radius: 3px;
-      }
-
-      .user-icon {
-        width: 1.5em;
-        height: 1.5em;
-        border-radius: 100%;
-        margin-right: 0.5rem;
-      }
-
-      .user-icon-inner {
-        font-size: 0.8em;
-      }
-
-      .text-icon {
-        border: 1px solid #000;
-        text-align: center;
-      }
-
-      .page-cover-image {
-        display: block;
-        object-fit: cover;
-        width: 100%;
-        height: 30vh;
-      }
-
-      .page-header-icon {
-        font-size: 3rem;
-        margin-bottom: 1rem;
-      }
-
-      .page-header-icon-with-cover {
-        margin-top: -0.72em;
-        margin-left: 0.07em;
-      }
-
-      .page-header-icon img {
-        border-radius: 3px;
-      }
-
-      .link-to-page {
-        margin: 1em 0;
-        padding: 0;
-        border: none;
-        font-weight: 500;
-      }
-
-      p > .user {
-        opacity: 0.5;
-      }
-
-      td > .user,
-      td > time {
-        white-space: nowrap;
-      }
-
-      input[type="checkbox"] {
-        transform: scale(1.5);
-        margin-right: 0.6em;
-        vertical-align: middle;
-      }
-
-      p {
-        margin-top: 0.5em;
-        margin-bottom: 0.5em;
-      }
-
-      .image {
-        border: none;
-        margin: 1.5em 0;
-        padding: 0;
-        border-radius: 0;
-        text-align: center;
-      }
-
-      .code,
-      code {
-        background: rgba(135, 131, 120, 0.15);
-        border-radius: 3px;
-        padding: 0.2em 0.4em;
-        border-radius: 3px;
-        font-size: 85%;
-        tab-size: 2;
-      }
-
-      code {
-        color: #eb5757;
-      }
-
-      .code {
-        padding: 1.5em 1em;
-      }
-
-      .code-wrap {
-        white-space: pre-wrap;
-        word-break: break-all;
-      }
-
-      .code > code {
-        background: none;
-        padding: 0;
-        font-size: 100%;
-        color: inherit;
-      }
-
-      blockquote {
-        font-size: 1.25em;
-        margin: 1em 0;
-        padding-left: 1em;
-        border-left: 3px solid rgb(55, 53, 47);
-      }
-
-      .bookmark {
-        text-decoration: none;
-        max-height: 8em;
-        padding: 0;
-        display: flex;
-        width: 100%;
-        align-items: stretch;
-      }
-
-      .bookmark-title {
-        font-size: 0.85em;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        height: 1.75em;
-        white-space: nowrap;
-      }
-
-      .bookmark-text {
-        display: flex;
-        flex-direction: column;
-      }
-
-      .bookmark-info {
-        flex: 4 1 180px;
-        padding: 12px 14px 14px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-      }
-
-      .bookmark-image {
-        width: 33%;
-        flex: 1 1 180px;
-        display: block;
-        position: relative;
-        object-fit: cover;
-        border-radius: 1px;
-      }
-
-      .bookmark-description {
-        color: rgba(55, 53, 47, 0.6);
-        font-size: 0.75em;
-        overflow: hidden;
-        max-height: 4.5em;
-        word-break: break-word;
-      }
-
-      .bookmark-href {
-        font-size: 0.75em;
-        margin-top: 0.25em;
-      }
-
-      .sans {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
-          "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji",
-          "Segoe UI Symbol";
-      }
-      .code {
-        font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo,
-          Courier, monospace;
-      }
-      .serif {
-        font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho",
-          "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC",
-          "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif;
-      }
-      .mono {
-        font-family: Courier, iawriter-mono, Nitti, Menlo, monospace;
-      }
-      .pdf .sans {
-        font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI",
-          Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji",
-          "Segoe UI Symbol", "Twemoji", "Noto Color Emoji", "Noto Sans CJK SC",
-          "Noto Sans CJK KR";
-      }
-
-      .pdf .code {
-        font-family: Source Code Pro, "SFMono-Regular", Consolas,
-          "Liberation Mono", Menlo, Courier, monospace, "Twemoji",
-          "Noto Color Emoji", "Noto Sans Mono CJK SC", "Noto Sans Mono CJK KR";
-      }
-
-      .pdf .serif {
-        font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho",
-          "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC",
-          "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif,
-          "Twemoji", "Noto Color Emoji", "Noto Sans CJK SC", "Noto Sans CJK KR";
-      }
-
-      .pdf .mono {
-        font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
-          "Twemoji", "Noto Color Emoji", "Noto Sans Mono CJK SC",
-          "Noto Sans Mono CJK KR";
-      }
-
-      .highlight-default {
-      }
-      .highlight-gray {
-        color: rgb(155, 154, 151);
-      }
-      .highlight-brown {
-        color: rgb(100, 71, 58);
-      }
-      .highlight-orange {
-        color: rgb(217, 115, 13);
-      }
-      .highlight-yellow {
-        color: rgb(223, 171, 1);
-      }
-      .highlight-teal {
-        color: rgb(15, 123, 108);
-      }
-      .highlight-blue {
-        color: rgb(11, 110, 153);
-      }
-      .highlight-purple {
-        color: rgb(105, 64, 165);
-      }
-      .highlight-pink {
-        color: rgb(173, 26, 114);
-      }
-      .highlight-red {
-        color: rgb(224, 62, 62);
-      }
-      .highlight-gray_background {
-        background: rgb(235, 236, 237);
-      }
-      .highlight-brown_background {
-        background: rgb(233, 229, 227);
-      }
-      .highlight-orange_background {
-        background: rgb(250, 235, 221);
-      }
-      .highlight-yellow_background {
-        background: rgb(251, 243, 219);
-      }
-      .highlight-teal_background {
-        background: rgb(221, 237, 234);
-      }
-      .highlight-blue_background {
-        background: rgb(221, 235, 241);
-      }
-      .highlight-purple_background {
-        background: rgb(234, 228, 242);
-      }
-      .highlight-pink_background {
-        background: rgb(244, 223, 235);
-      }
-      .highlight-red_background {
-        background: rgb(251, 228, 228);
-      }
-      .block-color-default {
-        color: inherit;
-        fill: inherit;
-      }
-      .block-color-gray {
-        color: rgba(55, 53, 47, 0.6);
-        fill: rgba(55, 53, 47, 0.6);
-      }
-      .block-color-brown {
-        color: rgb(100, 71, 58);
-        fill: rgb(100, 71, 58);
-      }
-      .block-color-orange {
-        color: rgb(217, 115, 13);
-        fill: rgb(217, 115, 13);
-      }
-      .block-color-yellow {
-        color: rgb(223, 171, 1);
-        fill: rgb(223, 171, 1);
-      }
-      .block-color-teal {
-        color: rgb(15, 123, 108);
-        fill: rgb(15, 123, 108);
-      }
-      .block-color-blue {
-        color: rgb(11, 110, 153);
-        fill: rgb(11, 110, 153);
-      }
-      .block-color-purple {
-        color: rgb(105, 64, 165);
-        fill: rgb(105, 64, 165);
-      }
-      .block-color-pink {
-        color: rgb(173, 26, 114);
-        fill: rgb(173, 26, 114);
-      }
-      .block-color-red {
-        color: rgb(224, 62, 62);
-        fill: rgb(224, 62, 62);
-      }
-      .block-color-gray_background {
-        background: rgb(235, 236, 237);
-      }
-      .block-color-brown_background {
-        background: rgb(233, 229, 227);
-      }
-      .block-color-orange_background {
-        background: rgb(250, 235, 221);
-      }
-      .block-color-yellow_background {
-        background: rgb(251, 243, 219);
-      }
-      .block-color-teal_background {
-        background: rgb(221, 237, 234);
-      }
-      .block-color-blue_background {
-        background: rgb(221, 235, 241);
-      }
-      .block-color-purple_background {
-        background: rgb(234, 228, 242);
-      }
-      .block-color-pink_background {
-        background: rgb(244, 223, 235);
-      }
-      .block-color-red_background {
-        background: rgb(251, 228, 228);
-      }
-      .select-value-color-default {
-        background-color: rgba(206, 205, 202, 0.5);
-      }
-      .select-value-color-gray {
-        background-color: rgba(155, 154, 151, 0.4);
-      }
-      .select-value-color-brown {
-        background-color: rgba(140, 46, 0, 0.2);
-      }
-      .select-value-color-orange {
-        background-color: rgba(245, 93, 0, 0.2);
-      }
-      .select-value-color-yellow {
-        background-color: rgba(233, 168, 0, 0.2);
-      }
-      .select-value-color-green {
-        background-color: rgba(0, 135, 107, 0.2);
-      }
-      .select-value-color-blue {
-        background-color: rgba(0, 120, 223, 0.2);
-      }
-      .select-value-color-purple {
-        background-color: rgba(103, 36, 222, 0.2);
-      }
-      .select-value-color-pink {
-        background-color: rgba(221, 0, 129, 0.2);
-      }
-      .select-value-color-red {
-        background-color: rgba(255, 0, 26, 0.2);
-      }
-
-      .checkbox {
-        display: inline-flex;
-        vertical-align: text-bottom;
-        width: 16;
-        height: 16;
-        background-size: 16px;
-        margin-left: 2px;
-        margin-right: 5px;
-      }
-
-      .checkbox-on {
-        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
-      }
-
-      .checkbox-off {
-        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
-      }
-    </style>
-  </head>
-  <body>
-    <article id="5f8823b9-3193-4ff8-8d97-4cc51b46fc5b" class="page mono">
-      <header>
-        <img
-          class="page-cover-image"
-          src="https://images.unsplash.com/photo-1593720219276-0b1eacd0aef4?ixlib=rb-1.2.1&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb&amp;ixid=eyJhcHBfaWQiOjYzOTIxfQ"
-          style="object-position: center 50%"
-        />
-        <div class="page-header-icon page-header-icon-with-cover">
-          <span class="icon">💻</span>
-        </div>
-        <h1 class="page-title" style="height: 0.41em">Learn React with Me</h1>
-      </header>
-      <div class="page-body">
-        <p
-          id="99126afb-b3e1-4baf-8e57-2446277c0364"
-          class=""
-          style="height: 0.41em"
-        >
-          Written by Oceane Andreis
-        </p>
-        <p id="8a8aba56-3b42-40dc-9def-587902fad468" class=""></p>
-        <p id="438ae867-a843-499d-9662-34e831c39dbb" class="">
-          React is one of the most in-demand skills of 2020. React is a great
-          skill to learn after you&#x27;ve learned HTML, CSS, and Javascript. If
-          you&#x27;d like to learn more about the skills to be a web developer
-          this is a
-          <a
-            href="https://dev.to/syakirurahman/how-to-become-a-front-end-developer-a-complete-practial-guide-3nfb?utm_source=digest_mailer&amp;utm_medium=email&amp;utm_campaign=digest_email"
-            >great article</a
-          >. It&#x27;s often hard to figure out a path or to stick to a
-          schedule. To keep myself accountable I will be journaling my journey
-          and my takeaways.
-        </p>
-        <p id="71fa036a-3c2d-40c1-89e8-db515db19e77" class="">
-          Feel free to do this with me! I&#x27;d love to have people to learn
-          with.
-        </p>
-        <p id="b57eea4c-47fc-4fe1-87b0-f2f0d2d5171d" class="">
-          Email me at oceane.andreis@colorado.edu
-        </p>
-        <h2 id="6a77bff6-7429-4441-87bb-348f6fce163d" class="">Week 1</h2>
-        <ul id="f22b2d26-4f51-44a0-a8ff-214a016d4984" class="bulleted-list">
-          <li>
-            <a href="https://reactjs.org/docs/getting-started.html"
-              >Read basic React.js documentation</a
-            >
-          </li>
-        </ul>
-        <ul id="ba071bef-a626-49f9-90f7-860970b537b4" class="bulleted-list">
-          <li>
-            <a href="https://reactjs.org/tutorial/tutorial.html"
-              >Reactjs.org Tutorial
-            </a>
-          </li>
-        </ul>
-        <ul id="30d132cc-a3a4-4c00-870e-7db19c1bd36f" class="bulleted-list">
-          <li>
-            <a href="https://www.freecodecamp.org/news/react-beginner-handbook/"
-              >Read this React beginner&#x27;s handbook</a
-            >
-          </li>
-        </ul>
-        <p id="b7873ca8-f350-4e58-a764-abc1ffe36abc" class=""></p>
-        <p id="a2aa0608-2e75-4109-92ca-bc2fa5cdc9be" class="">
-          Takeaways:Reading links above (in progress...)
-        </p>
-        <p id="0c49bc41-7c16-4937-97d6-c860254efd3d" class=""></p>
-        <p id="4379cea7-2c18-453e-8e73-003e45fef099" class="">
-          <a href="https://sonder-blog.herokuapp.com/">🏠 Go back to all post</a
-          >s
-        </p>
-      </div>
-    </article>
-  </body>
-</html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Learn React with Me</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+}
+
+.simple-table-header {
+	background: rgb(247, 246, 243);
+	color: black;
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(145, 145, 142, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(187, 132, 108, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(215, 129, 58, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 148, 51, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(108, 155, 125, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(91, 151, 189, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(167, 130, 195, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(205, 116, 159, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(225, 111, 100, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(145, 145, 142, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(187, 132, 108, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(215, 129, 58, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 148, 51, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(108, 155, 125, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(91, 151, 189, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(167, 130, 195, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(205, 116, 159, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(225, 111, 100, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="5f8823b9-3193-4ff8-8d97-4cc51b46fc5b" class="page mono"><header><img class="page-cover-image" src="https://images.unsplash.com/photo-1593720219276-0b1eacd0aef4?ixlib=rb-1.2.1&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb&amp;ixid=eyJhcHBfaWQiOjYzOTIxfQ" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">💻</span></div><h1 class="page-title">Learn React with Me</h1></header><div class="page-body"><p id="99126afb-b3e1-4baf-8e57-2446277c0364" class="">Written by Oceane Andreis</p><p id="8a8aba56-3b42-40dc-9def-587902fad468" class="">
+</p><p id="438ae867-a843-499d-9662-34e831c39dbb" class="">React is one of the most in-demand skills of 2020. React is a great skill to learn after you&#x27;ve learned HTML, CSS, and Javascript. If you&#x27;d like to learn more about the skills to be a web developer this is a <a href="https://dev.to/syakirurahman/how-to-become-a-front-end-developer-a-complete-practial-guide-3nfb?utm_source=digest_mailer&amp;utm_medium=email&amp;utm_campaign=digest_email">great article</a>. It&#x27;s often hard to figure out a path or to stick to a schedule. To keep myself accountable I will be journaling my journey and my takeaways. </p><p id="71fa036a-3c2d-40c1-89e8-db515db19e77" class="">Feel free to do this with me! I&#x27;d love to have people to learn with.</p><p id="b57eea4c-47fc-4fe1-87b0-f2f0d2d5171d" class="">Email me at oceane.andreis@colorado.edu</p><h2 id="6a77bff6-7429-4441-87bb-348f6fce163d" class="">Week 1</h2><ul id="f22b2d26-4f51-44a0-a8ff-214a016d4984" class="bulleted-list"><li style="list-style-type:disc"><a href="https://reactjs.org/docs/getting-started.html">Read basic React.js documentation</a></li></ul><ul id="ba071bef-a626-49f9-90f7-860970b537b4" class="bulleted-list"><li style="list-style-type:disc"><a href="https://reactjs.org/tutorial/tutorial.html">Reactjs.org Tutorial </a></li></ul><ul id="30d132cc-a3a4-4c00-870e-7db19c1bd36f" class="bulleted-list"><li style="list-style-type:disc"><a href="https://www.freecodecamp.org/news/react-beginner-handbook/">Read this React beginner&#x27;s handbook</a></li></ul><p id="c35dcd36-29a6-4c2b-ab78-2c542aeaee3f" class="">
+</p><p id="a2aa0608-2e75-4109-92ca-bc2fa5cdc9be" class=""><span style="border-bottom:0.05em solid">Takeaways:</span></p><figure id="d26aad99-472b-4fd5-af0c-b9331042501f" class="link-to-page"><a href="Learn%20React%20with%20Me%205f8823b931934ff88d974cc51b46fc5b/Week%201%20d26aad99472b4fd5af0cb9331042501f.html"><span class="icon">👩🏾‍💻</span>Week 1</a></figure><p id="0c49bc41-7c16-4937-97d6-c860254efd3d" class="">
+</p><h2 id="8f652d93-387b-48d5-84e4-342e4103cd58" class="">Week 2</h2><ul id="75a36413-1308-4304-b80a-49430f78f9d3" class="bulleted-list"><li style="list-style-type:disc"><a href="https://www.youtube.com/watch?v=nUl5QLkVdvU&amp;t=1137s">To do List app</a></li></ul><ul id="d6070d92-a470-46f8-bf51-c6a43d386745" class="bulleted-list"><li style="list-style-type:disc"><a href="https://create-react-app.dev/docs/getting-started">Create React documentation</a></li></ul><ul id="63de5d7b-1c1e-4248-a8ab-5c4a2af556b5" class="bulleted-list"><li style="list-style-type:disc">Read book the road to react</li></ul><p id="56340474-5aa8-4bc7-bd25-739095b2103b" class="">Takeaways:</p><figure id="5170ff2f-121a-40dc-aedc-49a6cb700780" class="link-to-page"><a href="Learn%20React%20with%20Me%205f8823b931934ff88d974cc51b46fc5b/Week%202%205170ff2f121a40dcaedc49a6cb700780.html"><span class="icon">👩🏾‍💻</span>Week 2</a></figure><p id="db63aa84-1267-461b-b910-e7be4bc7dd6b" class="">
+</p><h2 id="7a3188c9-d7d2-4c6e-bd9a-4e5083b7eed8" class="">Week 3</h2><ul id="521d5042-f105-4951-aa19-054ba24bd64d" class="bulleted-list"><li style="list-style-type:disc">Frontend Master course </li></ul><ul id="099e0b87-8364-43f6-82f6-3e52f9a37473" class="bulleted-list"><li style="list-style-type:disc">Read book the road to react</li></ul><ul id="d09393db-ab7a-4788-ad19-8ebb8f809ab6" class="bulleted-list"><li style="list-style-type:disc"><a href="https://reactjs.org/docs/hooks-overview.html">Intro to Hook</a></li></ul><p id="a56145f6-26b2-4bec-b43b-e5c0b0e1f568" class="">Takeaways:</p><figure id="4075d004-645c-42ce-ab34-cee07f33cd9b" class="link-to-page"><a href="Learn%20React%20with%20Me%205f8823b931934ff88d974cc51b46fc5b/Week%203%204075d004645c42ceab34cee07f33cd9b.html"><span class="icon">👩🏾‍💻</span>Week 3</a></figure><p id="b6a7cb05-b4d4-4468-b973-7665da6930b9" class="">
+</p><h2 id="7930ad42-2b0c-4204-9714-d613d1dbc978" class="">Week 4</h2><ul id="1ea8dedb-ed3e-4053-b896-f6483dfc898e" class="bulleted-list"><li style="list-style-type:disc">Freecodecamp intro to React</li></ul><p id="ce766de4-1b96-4fd9-ad17-c1e0d95698c7" class="">Takeaways:</p><figure id="7102316d-9edd-4dea-9ce1-f8d2f60b08b0" class="link-to-page"><a href="Learn%20React%20with%20Me%205f8823b931934ff88d974cc51b46fc5b/Week%204%207102316d9edd4dea9ce1f8d2f60b08b0.html"><span class="icon">👩🏾‍💻</span>Week 4</a></figure><p id="c2abec5d-db59-4dc4-aa19-40e0c60bcf3f" class="">
+</p><h2 id="a33eeb33-1dca-4843-904e-36ef536ffb60" class="">Week 5</h2><ul id="1c39fd30-027a-46be-8aaa-699a7aef70a2" class="bulleted-list"><li style="list-style-type:disc">Scrimba Learn React course</li></ul><p id="45f69161-c9de-415c-86f6-4ae66df545e1" class="">Takeaways:</p><figure id="3b3d49d0-cea2-4a42-bb04-51442e69a8d7" class="link-to-page"><a href="Learn%20React%20with%20Me%205f8823b931934ff88d974cc51b46fc5b/Week%205%203b3d49d0cea24a42bb0451442e69a8d7.html"><span class="icon">👩🏾‍💻</span>Week 5</a></figure><p id="f2d282f7-a2ab-48a4-8ee2-7630053b4886" class="">
+</p><p id="29d047a3-44c8-4983-b0c7-4fb45ed0193e" class="">
+</p><h2 id="409b3ccd-dc9f-43d0-b3ed-d57aae48fc56" class="">Week 6</h2><ul id="e20125fe-dd44-4e6e-b608-eeb78e16e39b" class="bulleted-list"><li style="list-style-type:disc">Linkedin Learning Course<ul id="e163e47d-62a1-4b01-8945-f7a1feb5d07d" class="bulleted-list"><li style="list-style-type:circle">React Hooks</li></ul><ul id="869103ef-a4d6-41ce-8337-ff461a7192c0" class="bulleted-list"><li style="list-style-type:circle">React: Working with APIs</li></ul><ul id="4c32eb11-d2e6-4969-a833-80e94ce82f85" class="bulleted-list"><li style="list-style-type:circle">Building Modern Projects with React</li></ul></li></ul><p id="baf67c3a-dd54-4233-925c-14acd37a0299" class="">Takeaways:</p><figure id="8511eb5b-7f88-4220-a3c6-3eaabb5c16a5" class="link-to-page"><a href="Learn%20React%20with%20Me%205f8823b931934ff88d974cc51b46fc5b/Week%206%208511eb5b7f884220a3c63eaabb5c16a5.html"><span class="icon">👩🏾‍💻</span>Week 6</a></figure><p id="d92da579-e255-4789-a332-7a9d34b9f5f0" class="">
+</p><p id="af9ec5fc-1600-40ea-92a2-f90a9def46dc" class=""><a href="https://sonder-blog.herokuapp.com/">🏠 Go back to all posts</a></p><p id="68cf2ef9-bd47-4e66-856e-a498cb8befd5" class="">
+</p><p id="34ae992e-d1df-4250-b26f-84613e0580c8" class="">
+</p><p id="0ce67e89-cf2a-4f86-ade3-78de79cefaa7" class="">
+</p></div></article></body></html>

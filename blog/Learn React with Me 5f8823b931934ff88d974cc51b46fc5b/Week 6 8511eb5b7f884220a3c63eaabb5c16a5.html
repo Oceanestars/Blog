@@ -1,0 +1,656 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Week 6</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+}
+
+.simple-table-header {
+	background: rgb(247, 246, 243);
+	color: black;
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(145, 145, 142, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(187, 132, 108, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(215, 129, 58, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 148, 51, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(108, 155, 125, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(91, 151, 189, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(167, 130, 195, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(205, 116, 159, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(225, 111, 100, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(145, 145, 142, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(187, 132, 108, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(215, 129, 58, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 148, 51, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(108, 155, 125, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(91, 151, 189, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(167, 130, 195, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(205, 116, 159, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(225, 111, 100, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="8511eb5b-7f88-4220-a3c6-3eaabb5c16a5" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">👩🏾‍💻</span></div><h1 class="page-title">Week 6</h1></header><div class="page-body"><p id="318b1de0-09df-4020-be3e-085fe5bd8524" class="">Why do we need redux?</p><ul id="07c445a7-f8e8-44ed-b2fe-5e485ea9d213" class="bulleted-list"><li style="list-style-type:disc">To avoid props drilling, state sharing, and global state</li></ul><p id="5a5887cf-fa08-4aa1-bfb8-9d32e2b16f26" class=""><strong>Redux</strong>:</p><p id="594202b1-f11d-4040-9cdc-0a854b8d6fbd" class="">Redux manages the state of an app using a single store. To modify the state, an action is dispatched to the store and a reducer updates the store based on the type and other values of the action. In order to use the new state, the store can be subscribed to. Subscribing requires a callback function which is called whenever the store updates.</p><p id="39245dc5-d4f8-41aa-9984-824aade3d32f" class="">From &lt;<a href="https://github.com/pshrmn/notes/blob/master/redux/redux.md">https://github.com/pshrmn/notes/blob/master/redux/redux.md</a>&gt;</p><ul id="a5864e53-b44c-4866-b9cc-4dddc6e4b277" class="bulleted-list"><li style="list-style-type:disc">The redux <strong>store</strong>(Central, global state that all our component can access) - j-son object - current state of our app</li></ul><ul id="1c2bb3e3-63ac-4cdc-b67f-e7b6edca7b40" class="bulleted-list"><li style="list-style-type:disc">Redux <strong>actions</strong> are j-son objects, consisting of two things, an action type, which is basically just a string naming the action, and a payload of additional data. The purpose of redux actions, is to explicitly define the different events that can occur in our application. So for example, we could have an action with the type: user data loaded, with a payload that contains the actual user data that we just fetched from the server.</li></ul><ul id="45c9c462-ff2a-4f0a-b2dd-5e3dd471a336" class="bulleted-list"><li style="list-style-type:disc">A <strong>reducer</strong> updates the state of the store. A reducer takes two arguments, the current state and the action that has been dispatched. The current state is manipulated and returns a new state based on the action.</li></ul><p id="35c6d50d-a802-462f-b173-2eb71a68a304" class="">^ The action is reduced to get the new updated state and the components in our app get read only access to that updated state</p><p id="a7360129-1eb2-40a3-991d-979bf29c26b8" class="">In programming and software development, the payload is used in the context of message protocol to differentiate between the assisting and actual data in a query string. For instance, Let’s consider this JSON web service response.</p><p id="c1cfe20b-2d46-4f6a-924d-0a55fc5923e3" class="">{</p><p id="8db0a51f-7e15-454f-a8ab-a6cb114833a9" class="">&quot;status&quot;:&quot;OK&quot;,</p><p id="6a754f92-01b7-44fb-ae4f-d7385819a6bc" class="">&quot;data&quot;:</p><p id="ac29faf9-be7b-4b72-ada5-8f352181b4c6" class="">{</p><p id="546b637d-b4f1-4e39-a386-7731605e6179" class="">&quot;message&quot;: &quot;Welcome, world!&quot;</p><p id="9b3dbd6c-143c-4735-b817-01cf7dfed43e" class="">}</p><p id="b6e53d3b-8c3b-4286-adb4-0a12ed4c8ea1" class="">}</p><p id="e1c57624-cfe4-4d2b-9c5d-2c154691ca23" class="">In the above example, the payload is the Welcome, World! Since it is the part of the query string that the user is interested in. The rest of the information is referred to as the overhead data. This is because it is only used to show the source or destination and display authenticity.</p><p id="358d56ef-ed3f-4d3b-8f92-c33ceed29ea1" class="">After creating the actions and reducer you have to connect everything.</p><p id="e4a289aa-bb3c-48e3-97c8-d741c015110b" class="">Here are two interesting functions:</p><ul id="6e5e6cbb-99c2-40db-ac52-efa6df584b1c" class="bulleted-list"><li style="list-style-type:disc"><strong>mapStateToProps</strong>: The state argument that gets passed to mapStateToProps is an object that represents the entire Redux state.</li></ul><ul id="e8b20dda-7bbc-44ac-be8f-49bc38fa827c" class="bulleted-list"><li style="list-style-type:disc">Now the job of mapStateToProps is to take this state object and return another object containing the pieces of that state that our component needs access to.</li></ul><ul id="2c526c03-118e-48ba-a917-07a8f13663ed" class="bulleted-list"><li style="list-style-type:disc"><strong>mapDispatchtoProps</strong>. This function works in a similar way to mapStateToProps, and in the properties of the object to be returned will be passed to our component as props. The difference here is that instead of taking the Redux state as an argument, it takes something called dispatch. Now what dispatch is is it&#x27;s a function that allows our components to trigger actions that our Redux store will respond to.</li></ul><ul id="522b7263-e9d9-49c3-88fc-a583ed151e73" class="bulleted-list"><li style="list-style-type:disc">The only way to update the state is to call store.dispatch() and pass in an action object.</li></ul><ul id="016ccc1a-f5b8-458c-a6b5-a212738cb4ed" class="bulleted-list"><li style="list-style-type:disc">You can think of dispatching actions as &quot;triggering an event&quot; in the application. Something happened, and we want the store to know about it. Reducers act like event listeners, and when they hear an action they are interested in, they update the state in response.</li></ul><p id="9b796bee-72a6-4e4b-82f4-e792c7174639" class="">Redux persist - so when you reload the page the data is still there. If you get an error in your browser you might have to like clear the data (persistReducer)</p><p id="482b82fd-4d06-4cad-b933-ba2bc62ef5b5" class=""><strong>Redux dev tool:</strong></p><p id="5db466c1-d638-4e2b-9924-e4fd644c2b4a" class="">export const configureStore = () =&gt;</p><p id="2df59373-42a9-4e1e-9ac7-06cfc7dfc903" class="">createStore(</p><p id="bf181cb0-3cb1-4bd3-ba74-bf33d6960024" class="">persistedReducer,</p><p id="70f73e99-cfd2-4f29-9c52-8c755320ebb4" class="">window.__REDUX_DEVTOOLS_EXTENSION__&amp;&amp;</p><p id="3051b043-11cf-484a-972e-a63a278c462a" class="">window.__REDUX_DEVTOOLS_EXTENSION__(),);</p><p id="f0ce46ec-2892-490d-80d0-e2ab2eaa66b6" class=""><strong>Best practices:</strong></p><ol type="1" id="8ed99f96-3768-4ebf-8c19-3ecc15f1f2b7" class="numbered-list" start="1"><li>Export the connected and unconnected versions of a component</li></ol><ol type="1" id="03b27779-2c13-45d1-9d9a-3019bee00173" class="numbered-list" start="2"><li>Keep redux actions and async operation out of reducers</li></ol><ol type="1" id="25a80f18-85de-4757-9272-fe51fe673ad0" class="numbered-list" start="3"><li>Think carefully about connecting compoenents. (If you plan on reusing a component the maybe have a parent component connected to the store instead of the component you want to reuse)</li></ol><p id="676214d0-119e-4824-8d6a-dc5c7b4c8b43" class="">Redux -&gt; State management</p><p id="c272438f-9acf-4fc7-acdb-848f1d6c8163" class="">Components -&gt; View logic</p><p id="387526ee-bf97-4e18-94a4-135897e49c1a" class="">Side-effect libraries(Redux Thunk &amp; Redux Saga) -&gt; Side Effects</p><p id="feb717bf-465f-4f5a-9147-4577e86e8fcf" class=""><strong>Redux Thunk:</strong></p><p id="d57980d2-1def-4b7f-8e3c-b1fa0d5d153c" class="">In redux, a normal dispatch take in an object with a type and a payload but redux thunk takes in an asynch function.</p><p id="2c478e88-804f-476a-9427-3bf7dd743235" class=""><strong>A thunk</strong> is simply a function that returns another function, which contains the actual logic that we want to perform when it&#x27;s triggered. Thunks can be dispatched the same way as actions.</p><p id="27a5b142-4678-465b-ac02-5e853c48a63b" class="">Separation of Concerns</p><ul id="d50abfeb-70e5-43b8-afce-116c727f404a" class="bulleted-list"><li style="list-style-type:disc">Component -&gt; Display data</li></ul><ul id="028760a9-edad-4285-be27-7ca8ba409d67" class="bulleted-list"><li style="list-style-type:disc">Reducers -&gt; Manage state</li></ul><ul id="f8e6cfb0-80f7-4a71-ba53-4fd7504ac3d4" class="bulleted-list"><li style="list-style-type:disc">Thunks -&gt; Side effect logic</li></ul><p id="3fa217de-eb87-495a-9f98-eaa4532d1ba9" class=""><strong>Selectors(functions)</strong></p><ul id="3ec4ba98-d8c9-47fe-a422-9fcc75b0a497" class="bulleted-list"><li style="list-style-type:disc">Selectors give us a place to put logic for combining, filtering, transforming storing data</li></ul><ul id="5fb65aa5-f668-415f-a052-a36192228455" class="bulleted-list"><li style="list-style-type:disc">selectors are meant to abstract away how data is stored in redux as well as give us a place to put logic for transforming redux data into data that our components can use.</li></ul><ul id="aff6907e-e527-4c4d-849e-75f7f1bb44cb" class="bulleted-list"><li style="list-style-type:disc">higher-order selectors that we&#x27;ve defined are incomplete and completed to-do&#x27;s, have no idea how our data is formatted in the redux store. Nowhere here are we referring to state.todos.data or state.todos.isLoading. So, even our higher-order selectors rely on our lower-level selectors, such as getTodos, to worry about the exact format of our data in redux</li></ul><ul id="8fa144e4-aec7-408b-b1d1-cf17c7b74779" class="bulleted-list"><li style="list-style-type:disc">the selectors we create with Reselect&#x27;s createSelector function use something called memoization(save computational power so it doesn&#x27;t rerun the function if the arg we pass in is the same as before)</li></ul><ul id="39c244eb-a522-4c70-bd53-b207da1e93e5" class="bulleted-list"><li style="list-style-type:disc">resultFunc() -&gt; reference to the last func that we passed to createSelector</li></ul><p id="b8012da5-81e8-431d-9bc3-e0e44bc71158" class=""><strong>Styled Components</strong></p><ul id="2cb4a507-ddb8-4fae-944e-be76b1e3b694" class="bulleted-list"><li style="list-style-type:disc">Allow us to define styles inside our js files</li></ul><ul id="0207359a-7155-4a04-b97d-901fbb14e0ac" class="bulleted-list"><li style="list-style-type:disc">Syntax<ul id="defdb656-05e4-4289-ae98-daccc5ea694a" class="bulleted-list"><li style="list-style-type:circle">Const BigRedText = styled.div` font-size:48px; color:#FF0000;`;</li></ul></li></ul><ul id="89bb8dfe-2357-4c5f-994a-774dddff60e6" class="bulleted-list"><li style="list-style-type:disc">Pass props<ul id="9f3afbb8-ae55-4c33-84f6-846776f48765" class="bulleted-list"><li style="list-style-type:circle">You can pass props where for example if a to do item is older you can pick a specific css for that item versus if it&#x27;s a recent item<ul id="82678212-7c27-4a49-b7d5-f4297a6f2bbf" class="bulleted-list"><li style="list-style-type:square">border-bottom: ${props =&gt; (new Date(props.createdAt) &gt; new Date(Date.now() - 8640000 * 5)? &#x27;none&#x27;: &#x27;2px solid red&#x27;)}; // if the date of the todo is more recent than today&#x27;s date minus 5 then no border but if it&#x27;s older than a red border</li></ul><ul id="143c2acc-0a38-4b4f-8374-37459fe9d74a" class="bulleted-list"><li style="list-style-type:square">Look at 6.5 (start vs end) to see to show border red for only incomplete item</li></ul><ul id="e726fe54-2403-4cf8-9750-bc23fbc058af" class="bulleted-list"><li style="list-style-type:square">Wrapping</li></ul></li></ul></li></ul><p id="a6f6313e-90ae-4e1a-814f-e4f05c36e4f7" class="">const TodoItemContainer = styled.div`</p><p id="0a1203ee-f59b-426a-a3c6-ec3b91b710ba" class="">background: #fff;</p><p id="82ff6f55-18b3-43cc-9077-78a0ac5102ba" class="">border-radius: 8px;</p><p id="31398677-4395-4428-ae34-65be7fffa30f" class="">margin-top: 8px;</p><p id="84ddcbce-0acf-4f13-ba82-3743669dc108" class="">padding: 16px;</p><p id="0b03ad6b-2f2b-4e67-9bfe-27237e8507c6" class="">position: relative;</p><p id="6ec814a8-f60a-433f-a566-e29a2b254429" class="">box-shadow: 0 4px 8px grey;</p><p id="2df45600-dc41-4c9b-bc86-7e9a411c9d31" class="">`;</p><p id="9bf28fd2-cd78-4882-b6cc-e93964a850ed" class="">const TodoItemContainerWithWarning = styled(TodoItemContainer)`</p><p id="40ccb3ae-0dfa-4a08-b3ec-8ac3608b7dd1" class="">border-bottom: ${props =&gt; (new Date(props.createdAt) &gt; new Date(Date.now() - 8640000 * 5)</p><p id="9bddd177-17b5-4a07-a7be-a01f14a5ddfb" class="">? &#x27;none&#x27;</p><p id="2cefd9cc-5d48-49a9-af9b-c96361149afd" class="">: &#x27;2px solid red&#x27;)};</p><p id="ac739020-a5cf-4719-9ff5-c80f23fdee5d" class="">`;</p><p id="a39abbe0-c924-433e-a808-7582098e1acd" class="">Map in react -  if you&#x27;re iterating through an array, you need a unique key that will be passed to the new single inside of your components</p><p id="3fd0185c-e582-41c3-9f87-29074e05c89b" class=""><strong>Axios</strong></p><ul id="56311c10-ff11-4a6e-af0e-07e2b38d4d95" class="bulleted-list"><li style="list-style-type:disc">promised-based HDP library to make API calls.</li></ul><ul id="c85e74b4-cc93-4f93-9d74-acbef4b40a74" class="bulleted-list"><li style="list-style-type:disc">It does automatic transformation of JSON data</li></ul><ul id="e7cc4041-3588-43b8-b654-48f800e28d77" class="bulleted-list"><li style="list-style-type:disc">also have access to manipulate the data, or the requests and response data before or after the call has been made</li></ul><ul id="2e00b9a3-bdc5-4211-abd1-a095b33adba2" class="bulleted-list"><li style="list-style-type:disc">Npm install --save axios</li></ul><p id="c1940b89-1acf-42f5-b081-ce8ad739ee92" class=""><strong>Class component vs function component</strong></p><p id="9dafb6e9-a7e7-480c-831d-45899e454a4b" class="">A functional component is just a plain JavaScript function which accepts props as an argument and returns a React element.</p><p id="807f45c9-58c5-4c5f-a941-4e2bcd93b9f5" class="">A class component requires you to extend from React.Component and create a render function which returns a React element.</p><ul id="85987127-977b-4b4f-9647-5daa81861d68" class="bulleted-list"><li style="list-style-type:disc">Class can use setState, this, and need render()</li></ul><p id="71d1927f-ef2f-4485-a643-3418010d3507" class=""><strong>Hooks</strong></p><ul id="70ca5e33-4a2c-42b5-851d-ba75826770c5" class="bulleted-list"><li style="list-style-type:disc">Add state to function components</li></ul><ul id="b63b1138-f09e-43db-becf-a7eee9600730" class="bulleted-list"><li style="list-style-type:disc">Abstract Logic into separate functions</li></ul><ul id="a8daed0b-12bb-4984-b6ed-fe8e78422250" class="bulleted-list"><li style="list-style-type:disc">Use State with onchange</li></ul><p id="a5834f04-f477-41c1-9084-e8d72fa3093f" class="">&lt;div className=&quot;container&quot;&gt;</p><p id="c1b7c6a4-5604-4a90-8d9b-953de2fa1c7d" class="">&lt;WeatherLineChart onDropdownSelection={selectedOption}/&gt;</p><p id="085c5a15-5a95-4dd7-ba96-93122f5deb3f" class="">&lt;Select</p><p id="de943a97-ac33-4dcb-afb4-3a01a1df6327" class="">placeholder=&quot;Select Option&quot;</p><p id="acfccc74-d94e-45d7-bf92-6cd8bfdb03cc" class="">value={selectedOption} // set selected value</p><p id="a87f81f1-a3fb-497c-be66-99ead04ecb12" class="">options={data} // set list of the data</p><p id="f00739ad-2ded-4592-88ab-180c09712085" class="">onChange={e =&gt;  setSelectedOption(e)} // assign onChange function</p><p id="f7b68ddf-61e0-4cf4-9672-3ca4d347c7e4" class="">/&gt;</p><p id="4e41c01b-7380-4404-910d-48bf62818662" class="">&lt;/div&gt;</p><p id="7f66f9ff-1bcc-4a85-81e9-2d9eb02e95c7" class="">SAME AS</p><p id="a08f71f2-f026-494f-a96e-48a0abe1f729" class="">const handleChange = e =&gt; {</p><p id="46cf2343-e904-4374-ac98-547996a36f66" class="">setSelectedOption(e);</p><p id="8fb93c60-5b55-45d5-9232-c59069439ba7" class="">}</p><p id="e78f6e65-bb24-4613-b54f-82a719c5d8ec" class="">&lt;div className=&quot;container&quot;&gt;</p><p id="f281c764-3bf7-46bc-bd11-0ddc5bc8c19e" class="">&lt;WeatherLineChart onDropdownSelection={selectedOption}/&gt;</p><p id="bbb6545a-cdac-4dc1-949d-45ecec46c513" class="">&lt;Select</p><p id="da7f533e-037e-457b-9fe3-7dbd9f1a52fe" class="">placeholder=&quot;Select Option&quot;</p><p id="1f6c9861-17b0-4d39-9ac5-2d913367c5e5" class="">value={selectedOption} // set selected value</p><p id="36286e6d-08a2-4c49-8ef3-87cdae34145d" class="">options={data} // set list of the data</p><p id="2f196092-cca8-4376-a6c1-9f1083d4a266" class="">onChange={handleChange} // assign onChange function</p><p id="cfe580f5-dbcb-4b6f-a832-0df3a9b24b7a" class="">/&gt;</p><p id="8a62c9a3-9177-49b4-8994-165885d93485" class="">&lt;/div&gt;</p><p id="57cb4454-0084-4ba2-b904-5f7264c60847" class=""><strong>Props</strong></p><ul id="f5919684-93cc-4389-b7cc-911bee32ac3c" class="bulleted-list"><li style="list-style-type:disc">Destructing an object<ul id="6ed65fa5-491e-4ad0-bb41-80a7e4ea8073" class="bulleted-list"><li style="list-style-type:circle">const DropdownSelection = (props) =&gt; {} // here you&#x27;d have to do props.name</li></ul><ul id="c1c4197e-e8a2-4bd6-823c-ca939eedafdb" class="bulleted-list"><li style="list-style-type:circle">const DropdownSelection = ({name}) =&gt; {} // destructuring so you can just use name</li></ul></li></ul><ul id="c225e129-e1ac-4c7c-8523-aff669aef964" class="bulleted-list"><li style="list-style-type:disc">Destructuring an array<ul id="1ff02651-291b-4e43-b3a6-87b1fe262bf0" class="bulleted-list"><li style="list-style-type:circle">const[first] = [&quot;Alex&quot;, &quot;Ali&quot;, &quot;Anna&quot;]// if you console.log first you&#x27;d get alex</li></ul><ul id="e32bdd80-4e26-4aef-9177-3020996db271" class="bulleted-list"><li style="list-style-type:circle">const [, , third] = [&quot;Alex&quot;, &quot;Ali&quot;, &quot;Anna&quot;] // if you print third it&#x27;ll give you anna</li></ul></li></ul><p id="0aba8dbb-3f02-45c6-8316-db6240aa41f0" class="">Fragment?</p><p id="b4087902-693c-4a52-8930-990e064b6efa" class="">Bird of feather (before scrum it was team owning a product)</p><p id="df5ab485-4f29-42ae-8810-25f5ac645c31" class="">Child to parent use function to edit the state</p><p id="d72044e8-3001-4d36-896b-9bf4852c093f" class="">Look into class  life cycle of react app</p><p id="cc847068-88c5-4ba4-a02c-f8972b6e701a" class="">&lt;&gt; parent , open and close the component</p><p id="db42aa44-c55f-4f10-bd18-b9310fface0a" class="">CORS -&gt; calling an api from a different domain(Do in api and ui side)</p></div></article></body></html>
