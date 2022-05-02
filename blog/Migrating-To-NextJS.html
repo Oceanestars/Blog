@@ -1,665 +1,965 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Migrating React App to Next.JS Checklist</title><style>
-/* cspell:disable-file */
-/* webkit printing magic: print all background colors */
-html {
-	-webkit-print-color-adjust: exact;
-}
-* {
-	box-sizing: border-box;
-	-webkit-print-color-adjust: exact;
-}
-
-html,
-body {
-	margin: 0;
-	padding: 0;
-}
-@media only screen {
-	body {
-		margin: 2em auto;
-		max-width: 900px;
-		color: rgb(55, 53, 47);
-	}
-}
-
-body {
-	line-height: 1.5;
-	white-space: pre-wrap;
-}
-
-a,
-a.visited {
-	color: inherit;
-	text-decoration: underline;
-}
-
-.pdf-relative-link-path {
-	font-size: 80%;
-	color: #444;
-}
-
-h1,
-h2,
-h3 {
-	letter-spacing: -0.01em;
-	line-height: 1.2;
-	font-weight: 600;
-	margin-bottom: 0;
-}
-
-.page-title {
-	font-size: 2.5rem;
-	font-weight: 700;
-	margin-top: 0;
-	margin-bottom: 0.75em;
-}
-
-h1 {
-	font-size: 1.875rem;
-	margin-top: 1.875rem;
-}
-
-h2 {
-	font-size: 1.5rem;
-	margin-top: 1.5rem;
-}
-
-h3 {
-	font-size: 1.25rem;
-	margin-top: 1.25rem;
-}
-
-.source {
-	border: 1px solid #ddd;
-	border-radius: 3px;
-	padding: 1.5em;
-	word-break: break-all;
-}
-
-.callout {
-	border-radius: 3px;
-	padding: 1rem;
-}
-
-figure {
-	margin: 1.25em 0;
-	page-break-inside: avoid;
-}
-
-figcaption {
-	opacity: 0.5;
-	font-size: 85%;
-	margin-top: 0.5em;
-}
-
-mark {
-	background-color: transparent;
-}
-
-.indented {
-	padding-left: 1.5em;
-}
-
-hr {
-	background: transparent;
-	display: block;
-	width: 100%;
-	height: 1px;
-	visibility: visible;
-	border: none;
-	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
-}
-
-img {
-	max-width: 100%;
-}
-
-@media only print {
-	img {
-		max-height: 100vh;
-		object-fit: contain;
-	}
-}
-
-@page {
-	margin: 1in;
-}
-
-.collection-content {
-	font-size: 0.875rem;
-}
-
-.column-list {
-	display: flex;
-	justify-content: space-between;
-}
-
-.column {
-	padding: 0 1em;
-}
-
-.column:first-child {
-	padding-left: 0;
-}
-
-.column:last-child {
-	padding-right: 0;
-}
-
-.table_of_contents-item {
-	display: block;
-	font-size: 0.875rem;
-	line-height: 1.3;
-	padding: 0.125rem;
-}
-
-.table_of_contents-indent-1 {
-	margin-left: 1.5rem;
-}
-
-.table_of_contents-indent-2 {
-	margin-left: 3rem;
-}
-
-.table_of_contents-indent-3 {
-	margin-left: 4.5rem;
-}
-
-.table_of_contents-link {
-	text-decoration: none;
-	opacity: 0.7;
-	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
-}
-
-table,
-th,
-td {
-	border: 1px solid rgba(55, 53, 47, 0.09);
-	border-collapse: collapse;
-}
-
-table {
-	border-left: none;
-	border-right: none;
-}
-
-th,
-td {
-	font-weight: normal;
-	padding: 0.25em 0.5em;
-	line-height: 1.5;
-	min-height: 1.5em;
-	text-align: left;
-}
-
-th {
-	color: rgba(55, 53, 47, 0.6);
-}
-
-ol,
-ul {
-	margin: 0;
-	margin-block-start: 0.6em;
-	margin-block-end: 0.6em;
-}
-
-li > ol:first-child,
-li > ul:first-child {
-	margin-block-start: 0.6em;
-}
-
-ul > li {
-	list-style: disc;
-}
-
-ul.to-do-list {
-	text-indent: -1.7em;
-}
-
-ul.to-do-list > li {
-	list-style: none;
-}
-
-.to-do-children-checked {
-	text-decoration: line-through;
-	opacity: 0.375;
-}
-
-ul.toggle > li {
-	list-style: none;
-}
-
-ul {
-	padding-inline-start: 1.7em;
-}
-
-ul > li {
-	padding-left: 0.1em;
-}
-
-ol {
-	padding-inline-start: 1.6em;
-}
-
-ol > li {
-	padding-left: 0.2em;
-}
-
-.mono ol {
-	padding-inline-start: 2em;
-}
-
-.mono ol > li {
-	text-indent: -0.4em;
-}
-
-.toggle {
-	padding-inline-start: 0em;
-	list-style-type: none;
-}
-
-/* Indent toggle children */
-.toggle > li > details {
-	padding-left: 1.7em;
-}
-
-.toggle > li > details > summary {
-	margin-left: -1.1em;
-}
-
-.selected-value {
-	display: inline-block;
-	padding: 0 0.5em;
-	background: rgba(206, 205, 202, 0.5);
-	border-radius: 3px;
-	margin-right: 0.5em;
-	margin-top: 0.3em;
-	margin-bottom: 0.3em;
-	white-space: nowrap;
-}
-
-.collection-title {
-	display: inline-block;
-	margin-right: 1em;
-}
-
-.simple-table {
-	margin-top: 1em;
-	font-size: 0.875rem;
-}
-
-.simple-table-header {
-	background: rgb(247, 246, 243);
-	color: black;
-	font-weight: 500;
-}
-
-time {
-	opacity: 0.5;
-}
-
-.icon {
-	display: inline-block;
-	max-width: 1.2em;
-	max-height: 1.2em;
-	text-decoration: none;
-	vertical-align: text-bottom;
-	margin-right: 0.5em;
-}
-
-img.icon {
-	border-radius: 3px;
-}
-
-.user-icon {
-	width: 1.5em;
-	height: 1.5em;
-	border-radius: 100%;
-	margin-right: 0.5rem;
-}
-
-.user-icon-inner {
-	font-size: 0.8em;
-}
-
-.text-icon {
-	border: 1px solid #000;
-	text-align: center;
-}
-
-.page-cover-image {
-	display: block;
-	object-fit: cover;
-	width: 100%;
-	height: 30vh;
-}
-
-.page-header-icon {
-	font-size: 3rem;
-	margin-bottom: 1rem;
-}
-
-.page-header-icon-with-cover {
-	margin-top: -0.72em;
-	margin-left: 0.07em;
-}
-
-.page-header-icon img {
-	border-radius: 3px;
-}
-
-.link-to-page {
-	margin: 1em 0;
-	padding: 0;
-	border: none;
-	font-weight: 500;
-}
-
-p > .user {
-	opacity: 0.5;
-}
-
-td > .user,
-td > time {
-	white-space: nowrap;
-}
-
-input[type="checkbox"] {
-	transform: scale(1.5);
-	margin-right: 0.6em;
-	vertical-align: middle;
-}
-
-p {
-	margin-top: 0.5em;
-	margin-bottom: 0.5em;
-}
-
-.image {
-	border: none;
-	margin: 1.5em 0;
-	padding: 0;
-	border-radius: 0;
-	text-align: center;
-}
-
-.code,
-code {
-	background: rgba(135, 131, 120, 0.15);
-	border-radius: 3px;
-	padding: 0.2em 0.4em;
-	border-radius: 3px;
-	font-size: 85%;
-	tab-size: 2;
-}
-
-code {
-	color: #eb5757;
-}
-
-.code {
-	padding: 1.5em 1em;
-}
-
-.code-wrap {
-	white-space: pre-wrap;
-	word-break: break-all;
-}
-
-.code > code {
-	background: none;
-	padding: 0;
-	font-size: 100%;
-	color: inherit;
-}
-
-blockquote {
-	font-size: 1.25em;
-	margin: 1em 0;
-	padding-left: 1em;
-	border-left: 3px solid rgb(55, 53, 47);
-}
-
-.bookmark {
-	text-decoration: none;
-	max-height: 8em;
-	padding: 0;
-	display: flex;
-	width: 100%;
-	align-items: stretch;
-}
-
-.bookmark-title {
-	font-size: 0.85em;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	height: 1.75em;
-	white-space: nowrap;
-}
-
-.bookmark-text {
-	display: flex;
-	flex-direction: column;
-}
-
-.bookmark-info {
-	flex: 4 1 180px;
-	padding: 12px 14px 14px;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-}
-
-.bookmark-image {
-	width: 33%;
-	flex: 1 1 180px;
-	display: block;
-	position: relative;
-	object-fit: cover;
-	border-radius: 1px;
-}
-
-.bookmark-description {
-	color: rgba(55, 53, 47, 0.6);
-	font-size: 0.75em;
-	overflow: hidden;
-	max-height: 4.5em;
-	word-break: break-word;
-}
-
-.bookmark-href {
-	font-size: 0.75em;
-	margin-top: 0.25em;
-}
-
-.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
-.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
-.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
-.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
-.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
-.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
-.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
-.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
-.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
-.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
-.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
-.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
-.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
-.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
-.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
-.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
-.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
-.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
-.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
-.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
-.highlight-default {
-	color: rgba(55, 53, 47, 1);
-}
-.highlight-gray {
-	color: rgba(120, 119, 116, 1);
-	fill: rgba(145, 145, 142, 1);
-}
-.highlight-brown {
-	color: rgba(159, 107, 83, 1);
-	fill: rgba(187, 132, 108, 1);
-}
-.highlight-orange {
-	color: rgba(217, 115, 13, 1);
-	fill: rgba(215, 129, 58, 1);
-}
-.highlight-yellow {
-	color: rgba(203, 145, 47, 1);
-	fill: rgba(203, 148, 51, 1);
-}
-.highlight-teal {
-	color: rgba(68, 131, 97, 1);
-	fill: rgba(108, 155, 125, 1);
-}
-.highlight-blue {
-	color: rgba(51, 126, 169, 1);
-	fill: rgba(91, 151, 189, 1);
-}
-.highlight-purple {
-	color: rgba(144, 101, 176, 1);
-	fill: rgba(167, 130, 195, 1);
-}
-.highlight-pink {
-	color: rgba(193, 76, 138, 1);
-	fill: rgba(205, 116, 159, 1);
-}
-.highlight-red {
-	color: rgba(212, 76, 71, 1);
-	fill: rgba(225, 111, 100, 1);
-}
-.highlight-gray_background {
-	background: rgba(241, 241, 239, 1);
-}
-.highlight-brown_background {
-	background: rgba(244, 238, 238, 1);
-}
-.highlight-orange_background {
-	background: rgba(251, 236, 221, 1);
-}
-.highlight-yellow_background {
-	background: rgba(251, 243, 219, 1);
-}
-.highlight-teal_background {
-	background: rgba(237, 243, 236, 1);
-}
-.highlight-blue_background {
-	background: rgba(231, 243, 248, 1);
-}
-.highlight-purple_background {
-	background: rgba(244, 240, 247, 0.8);
-}
-.highlight-pink_background {
-	background: rgba(249, 238, 243, 0.8);
-}
-.highlight-red_background {
-	background: rgba(253, 235, 236, 1);
-}
-.block-color-default {
-	color: inherit;
-	fill: inherit;
-}
-.block-color-gray {
-	color: rgba(120, 119, 116, 1);
-	fill: rgba(145, 145, 142, 1);
-}
-.block-color-brown {
-	color: rgba(159, 107, 83, 1);
-	fill: rgba(187, 132, 108, 1);
-}
-.block-color-orange {
-	color: rgba(217, 115, 13, 1);
-	fill: rgba(215, 129, 58, 1);
-}
-.block-color-yellow {
-	color: rgba(203, 145, 47, 1);
-	fill: rgba(203, 148, 51, 1);
-}
-.block-color-teal {
-	color: rgba(68, 131, 97, 1);
-	fill: rgba(108, 155, 125, 1);
-}
-.block-color-blue {
-	color: rgba(51, 126, 169, 1);
-	fill: rgba(91, 151, 189, 1);
-}
-.block-color-purple {
-	color: rgba(144, 101, 176, 1);
-	fill: rgba(167, 130, 195, 1);
-}
-.block-color-pink {
-	color: rgba(193, 76, 138, 1);
-	fill: rgba(205, 116, 159, 1);
-}
-.block-color-red {
-	color: rgba(212, 76, 71, 1);
-	fill: rgba(225, 111, 100, 1);
-}
-.block-color-gray_background {
-	background: rgba(241, 241, 239, 1);
-}
-.block-color-brown_background {
-	background: rgba(244, 238, 238, 1);
-}
-.block-color-orange_background {
-	background: rgba(251, 236, 221, 1);
-}
-.block-color-yellow_background {
-	background: rgba(251, 243, 219, 1);
-}
-.block-color-teal_background {
-	background: rgba(237, 243, 236, 1);
-}
-.block-color-blue_background {
-	background: rgba(231, 243, 248, 1);
-}
-.block-color-purple_background {
-	background: rgba(244, 240, 247, 0.8);
-}
-.block-color-pink_background {
-	background: rgba(249, 238, 243, 0.8);
-}
-.block-color-red_background {
-	background: rgba(253, 235, 236, 1);
-}
-.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
-.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
-.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
-.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
-.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
-.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
-.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
-.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
-.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
-
-.checkbox {
-	display: inline-flex;
-	vertical-align: text-bottom;
-	width: 16;
-	height: 16;
-	background-size: 16px;
-	margin-left: 2px;
-	margin-right: 5px;
-}
-
-.checkbox-on {
-	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
-}
-
-.checkbox-off {
-	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
-}
-	
-</style></head><body><article id="8849715b-b5cf-4cba-9760-9d0ea93825f4" class="page mono"><header><img class="page-cover-image" src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-1.2.1&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">💻</span></div><h1 class="page-title">Migrating React App to Next.JS Checklist</h1><table class="properties"><tbody></tbody></table></header><div class="page-body"><p id="a8cf99de-786f-4c54-88ba-5b7d297dd620" class="">Written by Oceane Andreis</p><p id="43ad4abe-1d59-47f7-a003-bec415053768" class="">
-</p><p id="b558ed6f-b68d-442e-b047-56753c4daf51" class="">I had the unfortunate scenario where I was hoping react-router would be able to be enough for a deployed react app. But, react-router (and react as a whole) is client-side and not server-side so all my routes to my component would not persist and they only existed from my homepage.</p><p id="8a63e84c-4675-4152-b128-8368c97ce02f" class="">Here is a much better <a href="https://stackoverflow.com/questions/27928372/react-router-urls-dont-work-when-refreshing-or-writing-manually">explanation here</a> as to why react-router URLs don&#x27;t work on refresh.</p><p id="76059988-0f0f-4b0e-8b93-eb6d46b795ec" class=""><mark class="highlight-yellow_background">One of the solutions to this issue is </mark><mark class="highlight-yellow_background"><a href="https://nextjs.org/">Next.Js</a></mark></p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="69c06b1f-0f52-4f73-87fb-d73a0ce6e1ae"><div style="font-size:1.5em"><span class="icon">👩🏾‍💻</span></div><div style="width:100%">I literally just started learning Next.js so all the information below is subject to contain mistakes.</div></figure><hr id="365abf9e-4bb3-4f8f-8a61-9ec34b7f8e34"/><p id="aa27022a-8298-4f2e-9332-1bef9f002844" class="">
-</p><h2 id="44c12284-b1b6-453a-810a-d98f6b83476f" class="">Next.Js is a react Framework</h2><blockquote id="c5985221-ede1-49b8-86ce-be227fcff295" class="">The d<em>efinition is directly taken from </em><em><a href="https://nextjs.org/">https://nextjs.org/</a></em><ul id="2bbb8670-9130-4fc7-a79d-dfd0d501e1bb" class="bulleted-list"><li style="list-style-type:disc">An intuitive <a href="https://nextjs.org/docs/basic-features/pages">page-based</a> routing system (with support for <a href="https://nextjs.org/docs/routing/dynamic-routes">dynamic routes</a>)</li></ul><ul id="659573ab-b351-4861-aae9-5dd83c3de21a" class="bulleted-list"><li style="list-style-type:disc"><a href="https://nextjs.org/docs/basic-features/pages#pre-rendering">Pre-rendering</a>, both <a href="https://nextjs.org/docs/basic-features/pages#static-generation-recommended">static generation</a> (SSG) and <a href="https://nextjs.org/docs/basic-features/pages#server-side-rendering">server-side rendering</a> (SSR) are supported on a per-page basis</li></ul><ul id="b5763049-2d4e-4b3a-8e9a-312316c41d69" class="bulleted-list"><li style="list-style-type:disc">Automatic code splitting for faster page loads</li></ul><ul id="52af9619-7420-449f-a5fe-6f7f5a08b324" class="bulleted-list"><li style="list-style-type:disc"><a href="https://nextjs.org/docs/routing/introduction#linking-between-pages">Client-side routing</a> with optimized prefetching</li></ul><ul id="b6e1b1cd-2fbe-4c03-b9f8-4715a3526391" class="bulleted-list"><li style="list-style-type:disc"><a href="https://nextjs.org/docs/basic-features/built-in-css-support">Built-in CSS</a> and <a href="https://nextjs.org/docs/basic-features/built-in-css-support#sass-support">Sass support</a>, and support for any <a href="https://nextjs.org/docs/basic-features/built-in-css-support#css-in-js">CSS-in-JS</a> library</li></ul><ul id="43bbee82-3633-462c-815d-aba3c399f6a1" class="bulleted-list"><li style="list-style-type:disc">Development environment with <a href="https://nextjs.org/docs/basic-features/fast-refresh">Fast Refresh</a> support</li></ul><ul id="810b4865-2a1d-4f8d-b795-f0015a5bd976" class="bulleted-list"><li style="list-style-type:disc"><a href="https://nextjs.org/docs/api-routes/introduction">API routes</a> to build API endpoints with Serverless Functions</li></ul><ul id="4f1a98e0-8553-4ee2-aa6d-458f394b28a8" class="bulleted-list"><li style="list-style-type:disc">Fully extendable</li></ul></blockquote><p id="81a48292-62e8-4247-98a3-97d06d6ece7b" class="">
-</p><p id="3e135aef-239d-4b67-a318-3eca79574043" class="">Ahead of writing this article, I found these two articles helpful:</p><ul id="d47fd607-8b14-4bfa-ab1d-ade3a4b17678" class="bulleted-list"><li style="list-style-type:disc"><a href="https://blog.logrocket.com/how-to-adopt-next-js-into-your-existing-application/"><strong>How to adopt Next.js into your existing application</strong></a></li></ul><ul id="e1564c9d-7a0e-4d67-a255-6cb76c9ade67" class="bulleted-list"><li style="list-style-type:disc"><a href="https://nextjs.org/docs/migrating/from-create-react-app"><strong>Migrating from Create React App</strong></a></li></ul><p id="de296d12-6ae1-4738-a80b-9367e8d7b4b4" class="">
-</p><h3 id="33917189-9889-4872-be55-0b5c19c06e2c" class="">Introduction</h3><p id="1ed1de15-5c3e-4f5f-926f-6e29a63c9886" class="">My basic understanding is that for Next.js public has your assets, pages have your different components, index.js is where you&#x27;d have your navbar and _app.js is where you can keep state when navigating pages, persist layout, do global CSS, and you can pass data.</p><p id="98706bfa-7172-4855-b67d-ba159bccbaba" class=""><strong>Before(React app):</strong></p><figure id="52d925f2-a41d-4b18-a1e4-ac9af8aef34c" class="image"><a href="Migrating%20React%20App%20to%20Next%20JS%20Checklist%2052d925f2a41d4b18a1e4ac9af8aef34c/Screen_Shot_2021-11-10_at_8.20.32_PM.png"><img style="width:240px" src="Migrating%20React%20App%20to%20Next%20JS%20Checklist%2052d925f2a41d4b18a1e4ac9af8aef34c/Screen_Shot_2021-11-10_at_8.20.32_PM.png"/></a></figure><p id="32f4bb40-8c4d-49d5-9b24-630affc8804a" class="">
-</p><p id="ea8ff995-3156-4e4b-953b-60e63513faf2" class=""><strong>After</strong>:</p><figure id="6fdb21ec-88d7-45e0-999e-9359dc00204c" class="image"><a href="Migrating%20React%20App%20to%20Next%20JS%20Checklist%2052d925f2a41d4b18a1e4ac9af8aef34c/Screen_Shot_2021-11-12_at_10.43.31_PM.png"><img style="width:206px" src="Migrating%20React%20App%20to%20Next%20JS%20Checklist%2052d925f2a41d4b18a1e4ac9af8aef34c/Screen_Shot_2021-11-12_at_10.43.31_PM.png"/></a></figure><p id="aedc98a9-37c9-4577-b214-7f62db316c9e" class="">
-</p><h3 id="aab90f2d-303f-4343-af64-ac70b4f37c23" class="">Checklist</h3><ul id="3325b61c-6309-45bf-8444-391962175b50" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Update package.json</span><ul id="136e02ae-9a39-4427-bde4-a6835b8e3a1c" class="bulleted-list"><li style="list-style-type:disc">   Remove react-script and react-router-dom <code>yarn remove react-scripts</code> &amp; <code>yarn remove react-router-dom</code></li></ul><ul id="85a698a0-48cf-4553-b1a2-0f1f5f7c5b51" class="bulleted-list"><li style="list-style-type:disc">Install next  <code>yarn add next</code><ul id="ef43cd53-0b89-4dc1-97fa-7e435d752ae2" class="bulleted-list"><li style="list-style-type:circle">   add script command</li></ul><pre id="1dcd7e91-45f5-458e-a029-e83872eb4152" class="code"><code>    {
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Migrating React App to Next.JS Checklist</title>
+    <!-- <link href="allStyle.css" rel="stylesheet" /> -->
+    <style>
+      /* cspell:disable-file */
+      /* webkit printing magic: print all background colors */
+      html {
+        -webkit-print-color-adjust: exact;
+      }
+      * {
+        box-sizing: border-box;
+        -webkit-print-color-adjust: exact;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      @media only screen {
+        body {
+          margin: 2em auto;
+          max-width: 900px;
+          color: rgb(55, 53, 47);
+        }
+      }
+
+      body {
+        line-height: 1.5;
+        white-space: pre-wrap;
+      }
+
+      a,
+      a.visited {
+        color: inherit;
+        text-decoration: underline;
+      }
+
+      .pdf-relative-link-path {
+        font-size: 80%;
+        color: #444;
+      }
+
+      h1,
+      h2,
+      h3 {
+        letter-spacing: -0.01em;
+        line-height: 1.2;
+        font-weight: 600;
+        margin-bottom: 0;
+      }
+
+      .page-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-top: 0;
+        margin-bottom: 0.75em;
+      }
+
+      h1 {
+        font-size: 1.875rem;
+        margin-top: 1.875rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+        margin-top: 1.5rem;
+      }
+
+      h3 {
+        font-size: 1.25rem;
+        margin-top: 1.25rem;
+      }
+
+      .source {
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        padding: 1.5em;
+        word-break: break-all;
+      }
+
+      .callout {
+        border-radius: 3px;
+        padding: 1rem;
+      }
+
+      figure {
+        margin: 1.25em 0;
+        page-break-inside: avoid;
+      }
+
+      figcaption {
+        opacity: 0.5;
+        font-size: 85%;
+        margin-top: 0.5em;
+      }
+
+      mark {
+        background-color: transparent;
+      }
+
+      .indented {
+        padding-left: 1.5em;
+      }
+
+      hr {
+        background: transparent;
+        display: block;
+        width: 100%;
+        height: 1px;
+        visibility: visible;
+        border: none;
+        border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+      }
+
+      img {
+        max-width: 100%;
+      }
+
+      @media only print {
+        img {
+          max-height: 100vh;
+          object-fit: contain;
+        }
+      }
+
+      @page {
+        margin: 1in;
+      }
+
+      .collection-content {
+        font-size: 0.875rem;
+      }
+
+      .column-list {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .column {
+        padding: 0 1em;
+      }
+
+      .column:first-child {
+        padding-left: 0;
+      }
+
+      .column:last-child {
+        padding-right: 0;
+      }
+
+      .table_of_contents-item {
+        display: block;
+        font-size: 0.875rem;
+        line-height: 1.3;
+        padding: 0.125rem;
+      }
+
+      .table_of_contents-indent-1 {
+        margin-left: 1.5rem;
+      }
+
+      .table_of_contents-indent-2 {
+        margin-left: 3rem;
+      }
+
+      .table_of_contents-indent-3 {
+        margin-left: 4.5rem;
+      }
+
+      .table_of_contents-link {
+        text-decoration: none;
+        opacity: 0.7;
+        border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+      }
+
+      table,
+      th,
+      td {
+        border: 1px solid rgba(55, 53, 47, 0.09);
+        border-collapse: collapse;
+      }
+
+      table {
+        border-left: none;
+        border-right: none;
+      }
+
+      th,
+      td {
+        font-weight: normal;
+        padding: 0.25em 0.5em;
+        line-height: 1.5;
+        min-height: 1.5em;
+        text-align: left;
+      }
+
+      th {
+        color: rgba(55, 53, 47, 0.6);
+      }
+
+      ol,
+      ul {
+        margin: 0;
+        margin-block-start: 0.6em;
+        margin-block-end: 0.6em;
+      }
+
+      li > ol:first-child,
+      li > ul:first-child {
+        margin-block-start: 0.6em;
+      }
+
+      ul > li {
+        list-style: disc;
+      }
+
+      ul.to-do-list {
+        text-indent: -1.7em;
+      }
+
+      ul.to-do-list > li {
+        list-style: none;
+      }
+
+      .to-do-children-checked {
+        text-decoration: line-through;
+        opacity: 0.375;
+      }
+
+      ul.toggle > li {
+        list-style: none;
+      }
+
+      ul {
+        padding-inline-start: 1.7em;
+      }
+
+      ul > li {
+        padding-left: 0.1em;
+      }
+
+      ol {
+        padding-inline-start: 1.6em;
+      }
+
+      ol > li {
+        padding-left: 0.2em;
+      }
+
+      .mono ol {
+        padding-inline-start: 2em;
+      }
+
+      .mono ol > li {
+        text-indent: -0.4em;
+      }
+
+      .toggle {
+        padding-inline-start: 0em;
+        list-style-type: none;
+      }
+
+      /* Indent toggle children */
+      .toggle > li > details {
+        padding-left: 1.7em;
+      }
+
+      .toggle > li > details > summary {
+        margin-left: -1.1em;
+      }
+
+      .selected-value {
+        display: inline-block;
+        padding: 0 0.5em;
+        background: rgba(206, 205, 202, 0.5);
+        border-radius: 3px;
+        margin-right: 0.5em;
+        margin-top: 0.3em;
+        margin-bottom: 0.3em;
+        white-space: nowrap;
+      }
+
+      .collection-title {
+        display: inline-block;
+        margin-right: 1em;
+      }
+
+      .simple-table {
+        margin-top: 1em;
+        font-size: 0.875rem;
+      }
+
+      .simple-table-header {
+        background: rgb(247, 246, 243);
+        color: black;
+        font-weight: 500;
+      }
+
+      time {
+        opacity: 0.5;
+      }
+
+      .icon {
+        display: inline-block;
+        max-width: 1.2em;
+        max-height: 1.2em;
+        text-decoration: none;
+        vertical-align: text-bottom;
+        margin-right: 0.5em;
+      }
+
+      img.icon {
+        border-radius: 3px;
+      }
+
+      .user-icon {
+        width: 1.5em;
+        height: 1.5em;
+        border-radius: 100%;
+        margin-right: 0.5rem;
+      }
+
+      .user-icon-inner {
+        font-size: 0.8em;
+      }
+
+      .text-icon {
+        border: 1px solid #000;
+        text-align: center;
+      }
+
+      .page-cover-image {
+        display: block;
+        object-fit: cover;
+        width: 100%;
+        height: 30vh;
+      }
+
+      .page-header-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+
+      .page-header-icon-with-cover {
+        margin-top: -0.72em;
+        margin-left: 0.07em;
+      }
+
+      .page-header-icon img {
+        border-radius: 3px;
+      }
+
+      .link-to-page {
+        margin: 1em 0;
+        padding: 0;
+        border: none;
+        font-weight: 500;
+      }
+
+      p > .user {
+        opacity: 0.5;
+      }
+
+      td > .user,
+      td > time {
+        white-space: nowrap;
+      }
+
+      input[type="checkbox"] {
+        transform: scale(1.5);
+        margin-right: 0.6em;
+        vertical-align: middle;
+      }
+
+      p {
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+      }
+
+      .image {
+        border: none;
+        margin: 1.5em 0;
+        padding: 0;
+        border-radius: 0;
+        text-align: center;
+      }
+
+      .code,
+      code {
+        background: rgba(135, 131, 120, 0.15);
+        border-radius: 3px;
+        padding: 0.2em 0.4em;
+        border-radius: 3px;
+        font-size: 85%;
+        tab-size: 2;
+      }
+
+      code {
+        color: #eb5757;
+      }
+
+      .code {
+        padding: 1.5em 1em;
+      }
+
+      .code-wrap {
+        white-space: pre-wrap;
+        word-break: break-all;
+      }
+
+      .code > code {
+        background: none;
+        padding: 0;
+        font-size: 100%;
+        color: inherit;
+      }
+
+      blockquote {
+        font-size: 1.25em;
+        margin: 1em 0;
+        padding-left: 1em;
+        border-left: 3px solid rgb(55, 53, 47);
+      }
+
+      .bookmark {
+        text-decoration: none;
+        max-height: 8em;
+        padding: 0;
+        display: flex;
+        width: 100%;
+        align-items: stretch;
+      }
+
+      .bookmark-title {
+        font-size: 0.85em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        height: 1.75em;
+        white-space: nowrap;
+      }
+
+      .bookmark-text {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .bookmark-info {
+        flex: 4 1 180px;
+        padding: 12px 14px 14px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .bookmark-image {
+        width: 33%;
+        flex: 1 1 180px;
+        display: block;
+        position: relative;
+        object-fit: cover;
+        border-radius: 1px;
+      }
+
+      .bookmark-description {
+        color: rgba(55, 53, 47, 0.6);
+        font-size: 0.75em;
+        overflow: hidden;
+        max-height: 4.5em;
+        word-break: break-word;
+      }
+
+      .bookmark-href {
+        font-size: 0.75em;
+        margin-top: 0.25em;
+      }
+
+      .sans {
+        font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol";
+      }
+      .code {
+        font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono",
+          "Liberation Mono", Courier, monospace;
+      }
+      .serif {
+        font-family: Lyon-Text, Georgia, ui-serif, serif;
+      }
+      .mono {
+        font-family: iawriter-mono, Nitti, Menlo, Courier, monospace;
+      }
+      .pdf .sans {
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol", "Twemoji", "Noto Color Emoji",
+          "Noto Sans CJK JP";
+      }
+      .pdf:lang(zh-CN) .sans {
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol", "Twemoji", "Noto Color Emoji",
+          "Noto Sans CJK SC";
+      }
+      .pdf:lang(zh-TW) .sans {
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol", "Twemoji", "Noto Color Emoji",
+          "Noto Sans CJK TC";
+      }
+      .pdf:lang(ko-KR) .sans {
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol", "Twemoji", "Noto Color Emoji",
+          "Noto Sans CJK KR";
+      }
+      .pdf .code {
+        font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas,
+          "PT Mono", "Liberation Mono", Courier, monospace, "Twemoji",
+          "Noto Color Emoji", "Noto Sans Mono CJK JP";
+      }
+      .pdf:lang(zh-CN) .code {
+        font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas,
+          "PT Mono", "Liberation Mono", Courier, monospace, "Twemoji",
+          "Noto Color Emoji", "Noto Sans Mono CJK SC";
+      }
+      .pdf:lang(zh-TW) .code {
+        font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas,
+          "PT Mono", "Liberation Mono", Courier, monospace, "Twemoji",
+          "Noto Color Emoji", "Noto Sans Mono CJK TC";
+      }
+      .pdf:lang(ko-KR) .code {
+        font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas,
+          "PT Mono", "Liberation Mono", Courier, monospace, "Twemoji",
+          "Noto Color Emoji", "Noto Sans Mono CJK KR";
+      }
+      .pdf .serif {
+        font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, "Twemoji",
+          "Noto Color Emoji", "Noto Serif CJK JP";
+      }
+      .pdf:lang(zh-CN) .serif {
+        font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, "Twemoji",
+          "Noto Color Emoji", "Noto Serif CJK SC";
+      }
+      .pdf:lang(zh-TW) .serif {
+        font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, "Twemoji",
+          "Noto Color Emoji", "Noto Serif CJK TC";
+      }
+      .pdf:lang(ko-KR) .serif {
+        font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, "Twemoji",
+          "Noto Color Emoji", "Noto Serif CJK KR";
+      }
+      .pdf .mono {
+        font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+          "Twemoji", "Noto Color Emoji", "Noto Sans Mono CJK JP";
+      }
+      .pdf:lang(zh-CN) .mono {
+        font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+          "Twemoji", "Noto Color Emoji", "Noto Sans Mono CJK SC";
+      }
+      .pdf:lang(zh-TW) .mono {
+        font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+          "Twemoji", "Noto Color Emoji", "Noto Sans Mono CJK TC";
+      }
+      .pdf:lang(ko-KR) .mono {
+        font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+          "Twemoji", "Noto Color Emoji", "Noto Sans Mono CJK KR";
+      }
+      .highlight-default {
+        color: rgba(55, 53, 47, 1);
+      }
+      .highlight-gray {
+        color: rgba(120, 119, 116, 1);
+        fill: rgba(145, 145, 142, 1);
+      }
+      .highlight-brown {
+        color: rgba(159, 107, 83, 1);
+        fill: rgba(187, 132, 108, 1);
+      }
+      .highlight-orange {
+        color: rgba(217, 115, 13, 1);
+        fill: rgba(215, 129, 58, 1);
+      }
+      .highlight-yellow {
+        color: rgba(203, 145, 47, 1);
+        fill: rgba(203, 148, 51, 1);
+      }
+      .highlight-teal {
+        color: rgba(68, 131, 97, 1);
+        fill: rgba(108, 155, 125, 1);
+      }
+      .highlight-blue {
+        color: rgba(51, 126, 169, 1);
+        fill: rgba(91, 151, 189, 1);
+      }
+      .highlight-purple {
+        color: rgba(144, 101, 176, 1);
+        fill: rgba(167, 130, 195, 1);
+      }
+      .highlight-pink {
+        color: rgba(193, 76, 138, 1);
+        fill: rgba(205, 116, 159, 1);
+      }
+      .highlight-red {
+        color: rgba(212, 76, 71, 1);
+        fill: rgba(225, 111, 100, 1);
+      }
+      .highlight-gray_background {
+        background: rgba(241, 241, 239, 1);
+      }
+      .highlight-brown_background {
+        background: rgba(244, 238, 238, 1);
+      }
+      .highlight-orange_background {
+        background: rgba(251, 236, 221, 1);
+      }
+      .highlight-yellow_background {
+        background: rgba(251, 243, 219, 1);
+      }
+      .highlight-teal_background {
+        background: rgba(237, 243, 236, 1);
+      }
+      .highlight-blue_background {
+        background: rgba(231, 243, 248, 1);
+      }
+      .highlight-purple_background {
+        background: rgba(244, 240, 247, 0.8);
+      }
+      .highlight-pink_background {
+        background: rgba(249, 238, 243, 0.8);
+      }
+      .highlight-red_background {
+        background: rgba(253, 235, 236, 1);
+      }
+      .block-color-default {
+        color: inherit;
+        fill: inherit;
+      }
+      .block-color-gray {
+        color: rgba(120, 119, 116, 1);
+        fill: rgba(145, 145, 142, 1);
+      }
+      .block-color-brown {
+        color: rgba(159, 107, 83, 1);
+        fill: rgba(187, 132, 108, 1);
+      }
+      .block-color-orange {
+        color: rgba(217, 115, 13, 1);
+        fill: rgba(215, 129, 58, 1);
+      }
+      .block-color-yellow {
+        color: rgba(203, 145, 47, 1);
+        fill: rgba(203, 148, 51, 1);
+      }
+      .block-color-teal {
+        color: rgba(68, 131, 97, 1);
+        fill: rgba(108, 155, 125, 1);
+      }
+      .block-color-blue {
+        color: rgba(51, 126, 169, 1);
+        fill: rgba(91, 151, 189, 1);
+      }
+      .block-color-purple {
+        color: rgba(144, 101, 176, 1);
+        fill: rgba(167, 130, 195, 1);
+      }
+      .block-color-pink {
+        color: rgba(193, 76, 138, 1);
+        fill: rgba(205, 116, 159, 1);
+      }
+      .block-color-red {
+        color: rgba(212, 76, 71, 1);
+        fill: rgba(225, 111, 100, 1);
+      }
+      .block-color-gray_background {
+        background: rgba(241, 241, 239, 1);
+      }
+      .block-color-brown_background {
+        background: rgba(244, 238, 238, 1);
+      }
+      .block-color-orange_background {
+        background: rgba(251, 236, 221, 1);
+      }
+      .block-color-yellow_background {
+        background: rgba(251, 243, 219, 1);
+      }
+      .block-color-teal_background {
+        background: rgba(237, 243, 236, 1);
+      }
+      .block-color-blue_background {
+        background: rgba(231, 243, 248, 1);
+      }
+      .block-color-purple_background {
+        background: rgba(244, 240, 247, 0.8);
+      }
+      .block-color-pink_background {
+        background: rgba(249, 238, 243, 0.8);
+      }
+      .block-color-red_background {
+        background: rgba(253, 235, 236, 1);
+      }
+      .select-value-color-pink {
+        background-color: rgba(245, 224, 233, 1);
+      }
+      .select-value-color-purple {
+        background-color: rgba(232, 222, 238, 1);
+      }
+      .select-value-color-green {
+        background-color: rgba(219, 237, 219, 1);
+      }
+      .select-value-color-gray {
+        background-color: rgba(227, 226, 224, 1);
+      }
+      .select-value-color-orange {
+        background-color: rgba(250, 222, 201, 1);
+      }
+      .select-value-color-brown {
+        background-color: rgba(238, 224, 218, 1);
+      }
+      .select-value-color-red {
+        background-color: rgba(255, 226, 221, 1);
+      }
+      .select-value-color-yellow {
+        background-color: rgba(253, 236, 200, 1);
+      }
+      .select-value-color-blue {
+        background-color: rgba(211, 229, 239, 1);
+      }
+
+      .checkbox {
+        display: inline-flex;
+        vertical-align: text-bottom;
+        width: 16;
+        height: 16;
+        background-size: 16px;
+        margin-left: 2px;
+        margin-right: 5px;
+      }
+
+      .checkbox-on {
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+      }
+
+      .checkbox-off {
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+      }
+    </style>
+  </head>
+  <body>
+    <article id="8849715b-b5cf-4cba-9760-9d0ea93825f4" class="page mono">
+      <header>
+        <img
+          class="page-cover-image"
+          src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-1.2.1&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb"
+          style="object-position: center 50%"
+        />
+        <div class="page-header-icon page-header-icon-with-cover">
+          <span class="icon">💻</span>
+        </div>
+        <h1 class="page-title">Migrating React App to Next.JS Checklist</h1>
+        <table class="properties">
+          <tbody></tbody>
+        </table>
+      </header>
+      <div class="page-body">
+        <p id="a8cf99de-786f-4c54-88ba-5b7d297dd620" class="">
+          Written by Oceane Andreis
+        </p>
+        <p id="43ad4abe-1d59-47f7-a003-bec415053768" class=""></p>
+        <p id="b558ed6f-b68d-442e-b047-56753c4daf51" class="">
+          I had the unfortunate scenario where I was hoping react-router would
+          be able to be enough for a deployed react app. But, react-router (and
+          react as a whole) is client-side and not server-side so all my routes
+          to my component would not persist and they only existed from my
+          homepage.
+        </p>
+        <p id="8a63e84c-4675-4152-b128-8368c97ce02f" class="">
+          Here is a much better
+          <a
+            href="https://stackoverflow.com/questions/27928372/react-router-urls-dont-work-when-refreshing-or-writing-manually"
+            >explanation here</a
+          >
+          as to why react-router URLs don&#x27;t work on refresh.
+        </p>
+        <p id="76059988-0f0f-4b0e-8b93-eb6d46b795ec" class="">
+          <mark class="highlight-yellow_background"
+            >One of the solutions to this issue is </mark
+          ><mark class="highlight-yellow_background"
+            ><a href="https://nextjs.org/">Next.Js</a></mark
+          >
+        </p>
+        <figure
+          class="block-color-gray_background callout"
+          style="white-space: pre-wrap; display: flex"
+          id="69c06b1f-0f52-4f73-87fb-d73a0ce6e1ae"
+        >
+          <div style="font-size: 1.5em"><span class="icon">👩🏾‍💻</span></div>
+          <div style="width: 100%">
+            I literally just started learning Next.js so all the information
+            below is subject to contain mistakes.
+          </div>
+        </figure>
+        <hr id="365abf9e-4bb3-4f8f-8a61-9ec34b7f8e34" />
+        <p id="aa27022a-8298-4f2e-9332-1bef9f002844" class=""></p>
+        <h2 id="44c12284-b1b6-453a-810a-d98f6b83476f" class="">
+          Next.Js is a react Framework
+        </h2>
+        <blockquote id="c5985221-ede1-49b8-86ce-be227fcff295" class="">
+          The d<em>efinition is directly taken from </em
+          ><em><a href="https://nextjs.org/">https://nextjs.org/</a></em>
+          <ul id="2bbb8670-9130-4fc7-a79d-dfd0d501e1bb" class="bulleted-list">
+            <li style="list-style-type: disc">
+              An intuitive <a
+                href="https://nextjs.org/docs/basic-features/pages"
+                >page-based</a
+              > routing system (with support for <a
+                href="https://nextjs.org/docs/routing/dynamic-routes"
+                >dynamic routes</a
+              >)
+            </li>
+          </ul>
+          <ul id="659573ab-b351-4861-aae9-5dd83c3de21a" class="bulleted-list">
+            <li style="list-style-type: disc">
+              <a
+                href="https://nextjs.org/docs/basic-features/pages#pre-rendering"
+                >Pre-rendering</a
+              >, both <a
+                href="https://nextjs.org/docs/basic-features/pages#static-generation-recommended"
+                >static generation</a
+              > (SSG) and <a
+                href="https://nextjs.org/docs/basic-features/pages#server-side-rendering"
+                >server-side rendering</a
+              > (SSR) are supported on a per-page basis
+            </li>
+          </ul>
+          <ul id="b5763049-2d4e-4b3a-8e9a-312316c41d69" class="bulleted-list">
+            <li style="list-style-type: disc">
+              Automatic code splitting for faster page loads
+            </li>
+          </ul>
+          <ul id="52af9619-7420-449f-a5fe-6f7f5a08b324" class="bulleted-list">
+            <li style="list-style-type: disc">
+              <a
+                href="https://nextjs.org/docs/routing/introduction#linking-between-pages"
+                >Client-side routing</a
+              > with optimized prefetching
+            </li>
+          </ul>
+          <ul id="b6e1b1cd-2fbe-4c03-b9f8-4715a3526391" class="bulleted-list">
+            <li style="list-style-type: disc">
+              <a
+                href="https://nextjs.org/docs/basic-features/built-in-css-support"
+                >Built-in CSS</a
+              > and <a
+                href="https://nextjs.org/docs/basic-features/built-in-css-support#sass-support"
+                >Sass support</a
+              >, and support for any <a
+                href="https://nextjs.org/docs/basic-features/built-in-css-support#css-in-js"
+                >CSS-in-JS</a
+              > library
+            </li>
+          </ul>
+          <ul id="43bbee82-3633-462c-815d-aba3c399f6a1" class="bulleted-list">
+            <li style="list-style-type: disc">
+              Development environment with <a
+                href="https://nextjs.org/docs/basic-features/fast-refresh"
+                >Fast Refresh</a
+              > support
+            </li>
+          </ul>
+          <ul id="810b4865-2a1d-4f8d-b795-f0015a5bd976" class="bulleted-list">
+            <li style="list-style-type: disc">
+              <a href="https://nextjs.org/docs/api-routes/introduction"
+                >API routes</a
+              > to build API endpoints with Serverless Functions
+            </li>
+          </ul>
+          <ul id="4f1a98e0-8553-4ee2-aa6d-458f394b28a8" class="bulleted-list">
+            <li style="list-style-type: disc">Fully extendable</li>
+          </ul>
+        </blockquote>
+        <p id="81a48292-62e8-4247-98a3-97d06d6ece7b" class=""></p>
+        <p id="3e135aef-239d-4b67-a318-3eca79574043" class="">
+          Ahead of writing this article, I found these two articles helpful:
+        </p>
+        <ul id="d47fd607-8b14-4bfa-ab1d-ade3a4b17678" class="bulleted-list">
+          <li style="list-style-type: disc">
+            <a
+              href="https://blog.logrocket.com/how-to-adopt-next-js-into-your-existing-application/"
+              ><strong
+                >How to adopt Next.js into your existing application</strong
+              ></a
+            >
+          </li>
+        </ul>
+        <ul id="e1564c9d-7a0e-4d67-a255-6cb76c9ade67" class="bulleted-list">
+          <li style="list-style-type: disc">
+            <a href="https://nextjs.org/docs/migrating/from-create-react-app"
+              ><strong>Migrating from Create React App</strong></a
+            >
+          </li>
+        </ul>
+        <p id="de296d12-6ae1-4738-a80b-9367e8d7b4b4" class=""></p>
+        <h3 id="33917189-9889-4872-be55-0b5c19c06e2c" class="">Introduction</h3>
+        <p id="1ed1de15-5c3e-4f5f-926f-6e29a63c9886" class="">
+          My basic understanding is that for Next.js public has your assets,
+          pages have your different components, index.js is where you&#x27;d
+          have your navbar and _app.js is where you can keep state when
+          navigating pages, persist layout, do global CSS, and you can pass
+          data.
+        </p>
+        <p id="98706bfa-7172-4855-b67d-ba159bccbaba" class="">
+          <strong>Before(React app):</strong>
+        </p>
+        <figure id="52d925f2-a41d-4b18-a1e4-ac9af8aef34c" class="image">
+          <a
+            href="Migrating%20React%20App%20to%20Next%20JS%20Checklist%2052d925f2a41d4b18a1e4ac9af8aef34c/Screen_Shot_2021-11-10_at_8.20.32_PM.png"
+            ><img
+              style="width: 240px"
+              src="Migrating%20React%20App%20to%20Next%20JS%20Checklist%2052d925f2a41d4b18a1e4ac9af8aef34c/Screen_Shot_2021-11-10_at_8.20.32_PM.png"
+          /></a>
+        </figure>
+        <p id="32f4bb40-8c4d-49d5-9b24-630affc8804a" class=""></p>
+        <p id="ea8ff995-3156-4e4b-953b-60e63513faf2" class="">
+          <strong>After</strong>:
+        </p>
+        <figure id="6fdb21ec-88d7-45e0-999e-9359dc00204c" class="image">
+          <a
+            href="Migrating%20React%20App%20to%20Next%20JS%20Checklist%2052d925f2a41d4b18a1e4ac9af8aef34c/Screen_Shot_2021-11-12_at_10.43.31_PM.png"
+            ><img
+              style="width: 206px"
+              src="Migrating%20React%20App%20to%20Next%20JS%20Checklist%2052d925f2a41d4b18a1e4ac9af8aef34c/Screen_Shot_2021-11-12_at_10.43.31_PM.png"
+          /></a>
+        </figure>
+        <p id="aedc98a9-37c9-4577-b214-7f62db316c9e" class=""></p>
+        <h3 id="aab90f2d-303f-4343-af64-ac70b4f37c23" class="">Checklist</h3>
+        <ul id="3325b61c-6309-45bf-8444-391962175b50" class="to-do-list">
+          <li>
+            <div class="checkbox checkbox-off"></div>
+            <span class="to-do-children-unchecked">Update package.json</span>
+            <ul id="136e02ae-9a39-4427-bde4-a6835b8e3a1c" class="bulleted-list">
+              <li style="list-style-type: disc">
+                Remove react-script and react-router-dom
+                <code>yarn remove react-scripts</code> &amp;
+                <code>yarn remove react-router-dom</code>
+              </li>
+            </ul>
+            <ul id="85a698a0-48cf-4553-b1a2-0f1f5f7c5b51" class="bulleted-list">
+              <li style="list-style-type: disc">
+                Install next <code>yarn add next</code>
+                <ul
+                  id="ef43cd53-0b89-4dc1-97fa-7e435d752ae2"
+                  class="bulleted-list"
+                >
+                  <li style="list-style-type: circle">add script command</li>
+                </ul>
+                <pre
+                  id="1dcd7e91-45f5-458e-a029-e83872eb4152"
+                  class="code"
+                ><code>    {
   &quot;scripts&quot;: {
     &quot;dev&quot;: &quot;next dev&quot;,
     &quot;build&quot;: &quot;next build&quot;,
@@ -670,4 +970,74 @@ blockquote {
     &quot;react&quot;: &quot;latest&quot;,
     &quot;react-dom&quot;: &quot;latest&quot;
   }
-}</code></pre></li></ul></li></ul><ul id="d4661269-50b3-449f-a746-d3193591f239" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked"> Move Assets(images,font,static data) to the public directory</span></li></ul><ul id="7e396cb0-f601-4be0-bec1-c2ab3fc2a413" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked"> CSS Migration</span><ul id="c77b215c-9162-4521-889b-9e2929c5b18f" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Global</span><ul id="e5738fd3-86e6-48a0-bb0a-2f5f2858205f" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">For _app.js </span></li></ul></li></ul><ul id="1723e180-5331-4eb8-9c52-30126fdbf253" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Module</span><ul id="90d7821c-3ba0-41ee-92f4-faafee23de62" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">home.module.css is for a specific file and enforces only id and class</span></li></ul></li></ul><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="c82065a9-d083-4fdf-8997-21045c8da86a"><div style="font-size:1.5em"></div><div style="width:100%">  💡 CSS Modules locally scope CSS by automatically creating a unique class name. This allows you to use the same CSS class name in different files without worrying about collisions.</div></figure></li></ul></div><p id="ee38f981-18f3-469f-ace8-b2aea03eff8a" class=""><a href="https://sonder-blog.herokuapp.com/">🏠 Go back to all posts</a></p></article></body></html>
+}</code></pre>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <ul id="d4661269-50b3-449f-a746-d3193591f239" class="to-do-list">
+          <li>
+            <div class="checkbox checkbox-off"></div>
+            <span class="to-do-children-unchecked">
+              Move Assets(images,font,static data) to the public directory</span
+            >
+          </li>
+        </ul>
+        <ul id="7e396cb0-f601-4be0-bec1-c2ab3fc2a413" class="to-do-list">
+          <li>
+            <div class="checkbox checkbox-off"></div>
+            <span class="to-do-children-unchecked"> CSS Migration</span>
+            <ul id="c77b215c-9162-4521-889b-9e2929c5b18f" class="to-do-list">
+              <li>
+                <div class="checkbox checkbox-off"></div>
+                <span class="to-do-children-unchecked">Global</span>
+                <ul
+                  id="e5738fd3-86e6-48a0-bb0a-2f5f2858205f"
+                  class="to-do-list"
+                >
+                  <li>
+                    <div class="checkbox checkbox-off"></div>
+                    <span class="to-do-children-unchecked">For _app.js </span>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+            <ul id="1723e180-5331-4eb8-9c52-30126fdbf253" class="to-do-list">
+              <li>
+                <div class="checkbox checkbox-off"></div>
+                <span class="to-do-children-unchecked">Module</span>
+                <ul
+                  id="90d7821c-3ba0-41ee-92f4-faafee23de62"
+                  class="to-do-list"
+                >
+                  <li>
+                    <div class="checkbox checkbox-off"></div>
+                    <span class="to-do-children-unchecked"
+                      >home.module.css is for a specific file and enforces only
+                      id and class</span
+                    >
+                  </li>
+                </ul>
+              </li>
+            </ul>
+            <figure
+              class="block-color-gray_background callout"
+              style="white-space: pre-wrap; display: flex"
+              id="c82065a9-d083-4fdf-8997-21045c8da86a"
+            >
+              <div style="font-size: 1.5em"></div>
+              <div style="width: 100%">
+                💡 CSS Modules locally scope CSS by automatically creating a
+                unique class name. This allows you to use the same CSS class
+                name in different files without worrying about collisions.
+              </div>
+            </figure>
+          </li>
+        </ul>
+      </div>
+      <p id="ee38f981-18f3-469f-ace8-b2aea03eff8a" class="">
+        <a href="https://sonder-blog.herokuapp.com/">🏠 Go back to all posts</a>
+      </p>
+    </article>
+  </body>
+</html>
